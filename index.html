@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="#0F1E38"/>
+  <title>EPI TRACK · SDIS 38 Vienne</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body,#root{height:100%;overflow:hidden}
+    body{font-family:'IBM Plex Sans',-apple-system,sans-serif;background:#F0F2F8}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const {useState,useEffect,useRef} = React;
+
+const _Ico=({size=16,color="currentColor",strokeWidth=2,children})=>(
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0,display:"block"}}>{children}</svg>
+);
+const Search=p=><_Ico {...p}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></_Ico>;
+const ArrowLeft=p=><_Ico {...p}><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></_Ico>;
+const ArrowLeftRight=p=><_Ico {...p}><polyline points="17 11 21 7 17 3"/><line x1="21" y1="7" x2="3" y2="7"/><polyline points="7 21 3 17 7 13"/><line x1="3" y1="17" x2="21" y2="17"/></_Ico>;
+const Archive=p=><_Ico {...p}><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></_Ico>;
+const Trash2=p=><_Ico {...p}><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></_Ico>;
+const Edit3=p=><_Ico {...p}><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></_Ico>;
+const Plus=p=><_Ico {...p}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></_Ico>;
+const Minus=p=><_Ico {...p}><line x1="5" y1="12" x2="19" y2="12"/></_Ico>;
+const Check=p=><_Ico {...p}><polyline points="20 6 9 12 4 9"/></_Ico>;
+const CheckCircle2=p=><_Ico {...p}><circle cx="12" cy="12" r="10"/><polyline points="16 10 11 15 8 12"/></_Ico>;
+const AlertTriangle=p=><_Ico {...p}><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></_Ico>;
+const FileSpreadsheet=p=><_Ico {...p}><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="10" y2="9"/></_Ico>;
+const History=p=><_Ico {...p}><path d="M3 12a9 9 0 105.657-8.485"/><polyline points="3 3 3 9 9 9"/><polyline points="12 7 12 12 16 14"/></_Ico>;
+const Layers=p=><_Ico {...p}><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></_Ico>;
+const Shield=p=><_Ico {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></_Ico>;
+const User=p=><_Ico {...p}><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></_Ico>;
+const UserCheck=p=><_Ico {...p}><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></_Ico>;
+const Inbox=p=><_Ico {...p}><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></_Ico>;
+const Tag=p=><_Ico {...p}><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></_Ico>;
+const Calendar=p=><_Ico {...p}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></_Ico>;
+const Droplets=p=><_Ico {...p}><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0014 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 01-11.91 4.97"/></_Ico>;
+const BarChart3=p=><_Ico {...p}><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></_Ico>;
+const Eye=p=><_Ico {...p}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></_Ico>;
+const ChevronDown=p=><_Ico {...p}><polyline points="6 9 12 15 18 9"/></_Ico>;
+const RefreshCw=p=><_Ico {...p}><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10"/><path d="M20.49 15a9 9 0 01-14.85 3.36L1 14"/></_Ico>;
+const X=p=><_Ico {...p}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></_Ico>;
+const Package=p=><_Ico {...p}><line x1="16.5" y1="9.4" x2="7.55" y2="4.24"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></_Ico>;
+const Building2=p=><_Ico {...p}><path d="M6 22V4a2 2 0 012-2h8a2 2 0 012 2v18z"/><path d="M6 12H4a2 2 0 00-2 2v6a2 2 0 002 2h2"/><path d="M18 9h2a2 2 0 012 2v9a2 2 0 01-2 2h-2"/><line x1="10" y1="6" x2="10" y2="6.01"/><line x1="14" y1="6" x2="14" y2="6.01"/><line x1="10" y1="10" x2="10" y2="10.01"/><line x1="14" y1="10" x2="14" y2="10.01"/><line x1="10" y1="14" x2="10" y2="14.01"/><line x1="14" y1="14" x2="14" y2="14.01"/><line x1="10" y1="18" x2="10" y2="18.01"/><line x1="14" y1="18" x2="14" y2="18.01"/></_Ico>;
+  
+const IMG_LOGO="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xMiAxTDMgNXY2YzAgNS41NSAzLjg0IDEwLjc0IDkgMTIgNS4xNi0xLjI2IDktNi40NSA5LTEyVjVsLTktNHoiLz48L3N2Zz4=";
+const IMG_VESTE="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAEKAMcDASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAYHBQgBAgQDCf/EAE0QAAEDAgIFBgkKBAIJBQAAAAEAAgMEBQYRBxIhMXETIkFRYYEyNTZCcnN0sbIIFCMzYoKRocHCFTRSszfRJUNEU2TD4fDxVGN1g6L/xAAbAQEAAQUBAAAAAAAAAAAAAAAABAECBQYHA//EADkRAAIBAwIDAwoEBgMBAAAAAAABAgMEEQUxBiFREkFxEyIyM2FygZGxwTSC0fAHFENSocIVI+FC/9oADAMBAAIRAxEAPwDTJERAEREAREQBERAEREAREQBERAERT3Rxoix9j6lfX2CxTvtsfh1so1IjtyIZntkI6mA5dOSsnUhTWZvC9pVJvYgSydww/e7fbobjW2qrp6Sb6uWSIhp/yz6M9/QthsF6MbHhaRstTCa65xnnTVDMuTcP6WebxOZ7VMp4YqiF8M8TJYnjVex7Q5rh1EHevRLJbk00RXxjjQ9QVvKVmGpG0NQdpppCTC4/ZO9v5jgqXvtmuljrnUV2opaWYbg8bHDradxHaEwVMeiIqAIiIAiIgCIiAIiIAiIgCIiAIiIAiL6U0E9VUMp6aGSaaQ6rI42lznHqAG9AfNZnB2F75i6+QWXD9C6rrJnBrRrBjW9rnOIa0cSrCwPocq6rk6zE8rqSHeKSIgyu9J25vAZngrmstpttloW0Vro4aSBvmxtyzPWTvJ7TtRptchkkWhj5KWHsP8jdsfTRYguTcnCiYCKOI9ueRlPHJu3ItO9bI00ENNTx09PDHDDG0MjjjaGtY0bgANgCozCOkO8WXUp6pxuFENmpI7nsH2XfocxwVu4ZxPZ8Qw69vqhyoGb4JObIziOniMwtA1m0v4z7dd9qPVbL4d375k+jOm1iJ88UYSsuIYya2m1KjLJtRFzZBxPSOw5qo8W6P71Y9eeFnz+iG3lYm85o+03eOIzCvpFHsNZubPknmPR/boXVKMZmqy8F7tFsvdC6iutFFVwO8142g9YO8HtC2KxbgCy33XniZ8wrTt5aFuxx+03ceOw9qqLFWErzhxzn1tPr0oOypi2x9583vW6WGs2155qeJdH9upCqUZQ8DWzHGh2spNeswzK6sgG00shAlb6J3O4bDxVU1ME1NO+nqIZIZozqvjkaWuaeog7ls3iPHVDRa0FsDa2cbNfP6Jvf53ds7VVeJwcSVr6m6uMk5aA2RoDS0bdgy6FlGeaK0RZa62Gros5GDl4R5zRtHELEqgCIiAIiIAiIgCIiAIiIAikWD8GX7FM4FtpCKcHJ9TLzYm9/SewZlWdNYsH6LrXHcrkwXi9P/lmSAAFw6Wt2hoGznHM9XUq4BBcK6O7ncqT+K3iaOx2ho1nVNVzS4fZacvxOQ6s1II8cYRwZE6kwXZ/n1VlqvuFXmNfh5xHYNUKDYvxXesU1pqLpVExtOcVOzZFFwHX2nasEgJdedJGMro52veZqWM7mUv0QHeOd+JUcnudyqHa09wq5Xdb5nOP5leRFQGQor5eqJ4fR3evp3D/d1D2+4qwMD6ZcRWeuh/i0rq6Brh9MzmVEXa1wyz79vaFV65AJOQGZKewH6I4B0umehpZLofn9FPG18VZEMn6pGwuHT+R4lW3abnQXWkbV26qiqYT5zDuPURvB7CtMsISQYS0f2mmvU4hmZBmYztfrOJdqgbyRrZdi6Ye0i3l+MrdBZJ5rbTTVLIpCx30krC7Ih3QB2D8VrmqaDQnCVWl5rSzjuf6EilXknh8zcLEOJbZZWFs8vK1GXNgj2u7/AOkcfzVO6WcU3O9YQvUb38hSmimygjOwjVPhHzvd2L5vc57i5zi5xOZJOZKw+NRng+8ewzfAVoFvWcq8McllfUmy2Zraug+td6I/Vd10H1rvRH6rsRjDusPd7DSVgdLGOQm36zRsPELMLq/wDwQoVkiIhQIiIAiIgCL6U8M1ROyCnifLK86rGMaXOceoAb1s/oT+ShcbxFTXzSFW/wAPoHgSR26kka6eVu8a8gzawHqGZyPmlRbq8o2kO3VePuXQg5vCNecEYPxNjW8ttGF7PVXOrO1wibzYx/U95yawdriAr9t/yaa/CUcVzxg2O5jIO1KRxdTxHqecg4nuDeK3GwfhbD2ELNHZ8NWiltlFH/q4GZaxyy1nO3ud9pxJPWsu9rXtLHtDmuGRBGYIWrVOKKnlU4Q83o93+n+SUrVY5vmap08MNPAyCniZFEwarGMaGtaOoAblrDper6uv0g3T50XZU8vIRNO5rG7suO/vX6DYy0ZUddr1liLKOpO0wH6p/D+k/lwWsWmbRJPdLk+oEZtl7Y0B7Zm/RzgbASR+AcM9n5bLZalQvY5pvn0e5GnTlB8zWlFKLro/xjbpHNmsNXMBudTN5YHt5mf5rFHD1/DtU2O5h3V80fn7lOLDGIs9S4MxZUkCLDl027i+mcwfi4ALH3a1VtqkbHXRsY92eQbI1+7LpaSOlAeFS3AdJHBKy8PYyWaJ/wBA14zaxw88jpIO7PZs6VElNsH+JW+scgM9WVNRWVDqiqmkmldve92ZWTwQcsY2f22L4wsOsvgo5Yws/t0PxhR7v1E/B/QvjujZJYnGfkhefYZvgKyyxWMfJG8+wT/23Lj1r6+HivqZKWzNa10H1rvRH6ruug+td6I/VdpMYd11f4B4Lsur/APBAVkiIhaEREAU6wPoyv2I+Tqqhhttvdt5aZvOePsM3nichxUo+T/hSjrKWqxDcKWKdzJhFScqzWa0tGbnZHedoAPQQVdQfkQHjUP5HgVVIpkwGD8GWHC0AFtpAagjJ9TLzpXd/QOwZBWFhLF93w5KBSy8tSk5vppDmw9o/pPaO/NR9FZWo060HCosplVJxeUbD4RxhaMRxhtNLyFWBm+mlOTxw/qHDvyUiWrEUkkUjZYnuje05tc05EHrBVk4M0nz0+pR4hDqiLcKpg57fSHncRt4rTtR4cnTzO25rp3/AA6/XxJlO5T5SLeWPvtltt7ozS3KlZOzzSdjmHrad4K9NvraS4UjKuiqI6iB4za9jswf+vYlfWUtDTOqKydkMTd7nHLuHWexazGU6U8rk18GiU8NFLYy0c3K0a9XbNe4UQ2kAfSxjtA3jtH4BVdiHEdssrS2pm16jLZBHteePUOPdmr7xJj2abWp7Mwws3Gd4559EdHft4LTnSC5z8b3l73Fz3VkjnOJzJJO0lbroOs1L2UqNTm4rOSDXoxjzR2xHiy53nWiL/m1Kf8AUxnePtHe73dirjHe+j+/+1ShRfHe+j+/+1bIeBGFNsH+JW+scoSptg/xK31jkCMystgvyvs3t0PxhYlZXBuzF1m9vg/uNXhdeon4P6F0d0bKLFYx24RvI/4Cf+25ZVY7E8Uk+GrpDCx0kklHM1jGjMuJYQAB1rjls8VoN9V9TJS2NZ10H1rvRH6q0cI6LZpdSqxFIYWbxSxO5x9J3RwH4hQnHNJT0OMrnSUkTYYInhrGN3AZLrNtqttdV3QovLSy33f+mPlTlFZZh11f4B4Lsur/AADwWRLCskRELQuQCSAASTsAC4Ut0R2b+N48t8D2a0NO75zN1arNoz7C7VHegNh8C2cWHCVttWqBJDCDL6x3Of8A/olZogEZEZgrlFeWnz1XN+rOz+k7v+i7NeCdU5tPUV2XBAIyIBCA5XSaWOGJ0s0jI42DNz3uyAHWSVh8VX2HD9A2Z45aWQ6sURdkSek59Q/VVbfb7crzLrVs5MYObYmbGN4D9TmVRsqkWbR6W63Dt2jZhaXlC+RrZXSg8i8ZjzNhPTt2ZdGatW63OuulRy9dUPmf0Z7m9gG4LVChOVbAeqRvvW0a0LjGKjOlJLm859uME622aC1xx95aXf2p/vWxy1yx+Msa3f2p/vXjwf8Aianu/crc+ijBqL4730f3/wBqlCi+O99H9/8AaugkJkYU2wf4lb6xyhKm2D/ErfWOQIzKymDzli2zn/j4P7jV6sLYTvOIpB8yp9SnBydUS82Md/SewK38IYDs1g1KhzPntc3by8rdjT9lu4cdp7VgtX1q1tKcqbeZNNYX36fU9qdKUnkliIi5YTwtddI/l7d/Wj3K/rxdbfaKQ1dyq46eIbi47XHqA3k9gWuuLrhBdcVXC40oeIZ5NZmuMjlu3dy3HhClPy86mPNxjPdnKI1y1hIxi6v8A8F2XV/gHgt/IhWSIiFoV5/Jvs3I2q4X2VnOqZBBET/Q3a4jsJIH3VRzGue9rGNLnOOQA3krbbBtobYsL260tADqeACTLpedrz3uJVUUZl0RFcUC+FfVQUNHLV1LwyKJus4n/vevuqs0i4h/iVZ/DqR+dJA7nOB2SP6+A6P/AAjZVIweJLvPerpJWTZtbnqxMz2MbnsH/fSscuDuXKsLz60f83D6xvvW0i1apDlVwn7bfetpVovGXpUfzfYlW3eFrnpB8tbv7S5bGLXPSD5a3f2lyj8H/ianu/dF1z6KMEovjvfR/f8A2qVwQy1EzIYInyyvOTWMaS5x6gAsZpcw3c7DTWaa5xthfViYsi1s3NDdTwugeFuW+yrU4zjTk+b2XeyHh4yQBbC/J4wXabphOO9XMOqT84kayA7GDIjaf6uG7iteltX8mb/C6H2ub3hYTiW4q0LLtUpYbaXLpzPW3inPmWXFHHFG2KJjY2NGTWtGQA6gF2RRu9YzstuulPa2zfOq2aZkJjhOYjLnAZuO4b929c1o0KtxLs04tsnNpbkkXkvdRJSWauq4cuUhp5JGZjMZtaSPcvWsdifyaunsc3wFUoJOrFPqir2Nc7vdLhdqt1XcaqSpmPS87AOoDcB2BeAfWu9Efqu66D613oj9V2mEIwioxWEjFt5O66v8A8F2XV/gHgrgVkiIhaZDDWYxHbCCQfncW70wtm7Xfnsyirs3t6JQNo4jp7tvFayYb8orb7XF8YV/qqKMnsUkcsYkie17Duc05gruoRb66ooZdeF3NPhMPgu/69qy9xxRRUlnlrHAiZoyZCfOcd23q/yV2QY/SNiH+H0n8NpJMqudvPcDtjZ/mf8AvoVXr7V1VPW1ctXUvL5pXaznFfFWtlyRwdy5XB3LlUKn0pv5mL0x71tKtWabZURn7Y962mWjcZb0fzfYlW3eFUVfgG7Ygxnc6uUiioHVTiJnjNzxn5renichxVuotXsNRrWDlKju1jPQkTgp7mFwxhez4eh1bfTDliMnzyc6R3f0DsGQVN/K6+swzwqv+Ur+VA/K6+swzwqv+UsloFapW1WnOo8t55v3WedZJU2kUKtlNBWI7Rh/RLDLcqprHmqmLIW7ZH7Rub+p2LWtTbB/iVvpuXQNR0+F/SVKo8LOeRCpzcHlFnYv0i3e869NQl1uojs1Y3fSPH2nfoPzUbwv5TWv2yH4wscvfhryjtntcXxhVjZ0bW3lToxwsP6d/Ur2nKWWbNLH4l8nLn7JL8BWQXgxIM8PXIddJL8BXIqHrY+KMi9jWVdB9a70R+q7qfaI8KWu/Pq665iSVtM9jWwh2TXZ5nM5bTwXYL28p2VF1qmy6GOjFyeERXD2HrvfqjkrbRvlAOT5DsjZxcdndvVp4a0ZWu3Q/OLu8XCpDSdTLKFp4b3d+zsU+paeClp2U9NDHDCwZNZG0NaB2ALmf6l/on3Ln+ocS3N0+xS8yPs3+f6EyFCMd+ZoUiIulmPMhhvyitvtcXxhX+qAw35RW32uL4wr/VUUYWHxZ4tZ60e4rMLEYr8WN9aPcUCIsiIqF5wdy9lpttfdattJbqWWpmd5rBuHWTuA7SvIBm4DrIWzlmtNus9IKW20kdPEN4aNrj1k7ye0rB63rH/GwjiOZSzjpyxv8z1pUu2yBYQ0X01KWVd/kFTMMiKeM5RtP2jvd+Q4qykRc3vb+vez7daWenReBNjBRWEFw4hrS5xAAGZJ3Bcqi9KWJLvWYgrrQ+qdHQ08pY2GPmh2XS7r79i99K0yeo1vJxeMc2/YUqVFBZJti/SXbbZr01oDbhVDYXg/QsPHzu7Z2rX3Sze7nfK2jqrnVPneBJqN3NYObsaNwWXUXx3vo/v/ALV0nTtHtrBf9azLq9//AD4EGpUlPcjCm2D/ABK31jlCVNsH+JW+scsoeaMyvfhw5Yhtp6quL4wvAvdh3ygt3tUXxheVf1UvBly3Nm14cReT9x9ll+Ar3LxX8Z2K4A/+lk+ErjNH1kfFGTexrGrd0Bj/AEXdD/7zPhKqJWRomxFacP2K5y3OqbG50zSyJvOe/mncP13Lp/EVKdWwlCCy21yXiiBRaU8suFR/FmLbJh+CRlbVB9QWnVp4udIdnSOjvyVZYr0mXa5a9Pamm3Ux2awOcrh6Xm923tVa3m701GHuqZTJO/M6oObnE9J/zK17TuE5yxO6eF0W/wAWe07hLlEr5ERb6QjIYb8orb7XF8YV/qgMN+UVt9ri+MK/1VFGFiMV+LG+tHuKy6xGK/FjfWj3FGERZERULw3w28R71tStVhscCesK2sX6Uootelw7GJX7jVSt5o9FvTxP4FapxLp9xfVKMKMc+ll9y23JFCagm2T++Xq2WSl+cXKrjgafBadrnnqaN5WQWsFdXVlxrjV11TLUTvO18jszw7B2LZ9avrOjrTYUsyzKWc9OWNvme9Kp22wtdNIflvdvaXLYta66RfLi7e0H3BZHg/8AFT937osufRRgFF8d76P7/wC1ShRfHe+j+/8AtXQiEyMKbYP8St9Y5QlTbB/iVvrHIEZle2wePbf7TH8QXiXssRyvdAeqpj+ILzrerl4MqtzZ1eK/eI6/2aT4SvavHfPEtd7NJ8JXF6PrI+KMo9jWJfConhpteWeRsbA0bXHisja7dXXSrbS2+llqZneaxueXaT0DtKw+mXDFbhqa0tr5YnTVML3mOM5hmRGwnpO3/wArs0rmlGoqTku09l3mMw8ZMBd8SySZxUAMbNxkPhHh1KPPc57i57i5xOZJOZK4RexYEREBkMN+UVt9ri+MK/1QGG/KK2+1xfGFf6qijCxGK/FjfWj3FZdYnFXiwesH6owiKoiKhecHcuVwdy5QBbUrVZbUrR+M/wCj+b/UlW3eFrrpG8uLt7QfcFsUtddI3lxdvaD7gonB/wCKn7v3Rdc+ijAKL4730f3/ANqlCi+O99H9/wDauhkJkYU2wf4lb6xyhKm2D/ErfWOQIzK9dk8c0PtEfxBeVrXOcGtBc4nIADaSp/gnR1d6ypp7hcv9H07HtkDHjOV+Rz8Hze/b2KFfXlC1pOVaWP33F8IuT5F0r51MLKinlgkz1JGFjst+RGRX0RcdTaeUZI8VntVutFIKW20kVNEN4YNrj1k7ye0qhflbeOLB7PN8TVsOSACScgN5WtXyo7vbbnfrTFb6uOpNNDI2Ux7Wglw2Z7ju6FsfDXlKuoqo8vfL37u9nhXwqeCnERF0wgBERAZDDflFbfa4vjCv9Unoup4azSZhakqYxJBPeaSORh3Oa6ZgI/Arc7HGhuWPlKzCsplZvNFM7nD0HnfwP4lYTUOIrDTbqnbXU+w5rKb26Yb7vjy9p7Qt51IuUVnBTqxOKvFg9YP1WcrqSqoaqSlrKeWnnjOT45GlrmntBWDxV4sHrB+qzcZKUVKLymeGzIqiLMYcwxer/IBbqN7os8nTP5sbfvHfwGZXnVrU6MXOo0ku9l6TfJGGO5cqyb7o7pLDgyuuVXVPqq6NjCzU5sbCXtB2bzvO0/gq2Ueyv6N7GU6Lyk8fv5l0oOO4W1DdrQexarrahngDgtT4z/o/m/1JFt3nK110jeXF29oPuC2KWu+kjy5u3r/0CicH/ip+790XXPoojyi+O99H9/8AapQo3j+nnjht874ZGxS8qI3lpDX5aueR6csx+K6E2kQiKK3tDeCbpiWyNqI3MpqETOa6d+3MjeGt3k/gO1VCtq/kzf4XQ+1ze8LDa9f1bG08pS3bSPSjBTlhkswrg6yYea19LT8tVZbambnP7uhvd+akKLGXy/WqyhguFWyOSQgRxDa95Jy2Dq7dy5lOde8q5k3KT+LMgkooya+dVKIKaWct1hGwvy68hmvovNdvFdX6h/wleEEnJJlWULizG16xCXRSzfNaM7qeEkNI+0d7u/Z2Krcc/wA1TegfepYonjn+apvQPvXaKFvSt4dilFJewxcpOXNkcREXsWhERASjRF/ixhD/AOdov77F+mq/MfRVNFT6UMKVE8jIoor1Rvke85Na0TsJJPQAF+m0UkcsbZYntkY8Ztc05gjrBXE/4rRf8zbvHLsv6ozGmejIw2K8K2PE1LyN2o2yPAyjmbzZY+Dv0OzsVA6T9EF6oGRttlTBV0Us4aJZHajothPOHTxbnwC2ZUa0jeI4vaW/C5arwxxPqOm1o0KM8wf/AMvmvFdPh8ckm5t6dRdprmUHhjRlZ7dqz3RxuVQNuq4ZRNPo9Pf+CnUUbIo2xxMaxjRk1rRkAOwLsi3C6va93LtVpN/vuRCjBR2IxpU8gbp6LP7jVr6r00uXe20+FK22S1kQrJ2sEcIObjz2nMgbhkDtKotb7wlCUbOTksZly+SIlw/OC2niOcbT1gLVhbTw/Us9EKDxntR/N/qX23edlRWKLBdr9pBu0Nso3y5T5PkOxjNg3uOwcN6vVcNa1ueq0NzOZyG8rWdL1OenTlOEctrHPxPepTU+TIDhPRlbLdqVF4c241I28nllC08PO79nYq/+VuxkZwwxjWta1tUA0DIAfQq/1QPyuvrMM8Kr/lLKaNfV7zVac60svn4LzXsjzqwUabSKFW0Hye7lQWrRHFV3GqipoW1c3Oed+0bAN5PYFq+pxhGSR1ijY57ixj36rSdjcztyW76ppy1CiqUpYWUyJTn2HkuTFulKebXpcPRGCPcamVoLz6Ldw4nPuVfU9RPVXmCoqZpJpnztLnyOLnE5jeSvGvvbzlX05H+9b7wrrXTreypONGOOW/e/FlZTlJ8zaJeK+1FPSWasqKqeKCFkLy6SRwa1oy6SVBtIul3DuFeUo6Rwu10bs5CF/MjP237hwGZ4LXLHGOMRYxq+VvFaTA12cVLFzYY+Dek9pzPatB0vh65u2qk/Nh1e78F9yXUrxjyXNn1u2Jmtzit7dY7uVcNg4DpUZqJpaiUyzSOked5cc180XTjHhERAEREBkMN+UVt9ri+MLaPB2N8QYWkAt9UZKXPN1LNm6I8B5p7RktUKeaSnqI6iF2pLE8PY7LPIg5gqysM6RYZtWnvkYhfuFRGOYfSG8d35KPdWdC8pOjcQUovuayVjKUHmLwzdbBOk7D+ItSmneLZXu2cjO4arz9l+48DkexZTSN4ji9pb8LlqlTzQ1ELZoJWSxPGbXscCCOwhZa7Y9xTQYVNshub3wCRvJmVoe6LYRzSd2w7jmB0ZLmV9/DWFO6jcafPCT5xl3eD3+D+ZkYag3FxqIsPEGILTYaflrnWMiJGbIxte/g0bTx3KqsV6TrncNenszDb6c7OUzzmcOO5vdt7VBKupqKuofUVU8k8zzm58ji5x7yrC0c6HcVYv5Orlh/hNrdkfnVSw6zx1sZvdxOQ7VskdK0zRaX8xfzXLve3wXe/n4Hh26lV9mCK5mkfLI6SV7nvcc3OccyT1krvS09RV1DKelhknmecmsjaXOJ7AFsrijQLhagwyZKKvr2VEWoJpZC15l54zyGQ1Tt6PzXyw9h60WGn5K20jIyRk+U7ZH8Xb+7crI8b2Feh5S0Tk84w1jH79n+CrtJxeJFb4T0WVM+pU4gmNPHvFNEQXn0nbh3Z9yt1oAAA3DYiLUtQ1O4v5qVZ7bLuRIhBQXIIipLSrie8TX+tsraow0MDgzk4ubr7Aecd537tyv0vTKmo1vJQeMLLfsKVKigssnGLdItns+vT0RFxrBs1Y3fRsP2nfoM+5a9aYcQ3PEdZQ1FynB1OUEUbW5MjB1cwPwG05rIqL47/2P7/7V0fTdFtbDnBZl1e/w6EGpVlPcjJBByKmuD/ErfWOUKDshkdo6llqS9y0VsFJSsAfrEmR23LPqCy55EuuFfS0EevUShpO5o2udwCid2xBVVmccGdPD1NPOPErEzSyTSGSV7nvdvc45krogyEREAREQBERAEREAREQEy0TVdSzEopGzyCnkje58efNJA2HLrVn3ullrKMQxZaxeDmTsAVVaKfLCL1MnuVxqqKEu0HswBY65r8TW8zXLXzhraj6SCPqyZlzT9o63Fq2cp5oaiBk9PLHNE8azHscHNcOsEb1pqpDg7Gd+wtOHW2qLqcnN9NLzon93Qe0ZFc34u4Fnq9R3VtVflP7ZNuPw/t8NvAyFreqkuzJcjZTG3kxV/c+NqrNe+fSnhy9YPrBXTC1VbGsc+KZ2bXZPbnqO6eGw9hVL4t0pyP16XDsXJt3Gqlbzj6LejifwWp8OcN6lFTt6lJxkpc87bLnnZ/DJKuK9N4kmWLiC/2mw03LXOrZFmM2Rja9/Bu88dyyUTxJG2QbnAEd61eraqpral9TVzyTzPObnyOLie8rZ6i/k4fVt9y2LWdGjptOn52ZSznpyxt8yPSq9ts+q140l+XV19cPhC2HWtOl+7UdvxzdhK/Wl5UZRt2nwRv6lO4P/Fz937osufRRjFEcZ1dPUS08UErZHRa2vq7QM8unuXiut7rK7NmtyMJ8xh38T0rFroZCyEREKBERAEREAREQBERAEREAREQHqtdfV2ytZWUUxhmZucBn3EHeFZeGNIVHV6tPeGtpJjsEzfq3celvu7QqqRAbGxvZIxskb2vY4Ztc05ghdlRWHMTXWxPApZteDPN0Em1h4dR7QrQwxjK1XrVhL/mlWdnIynwj9k9Pv7FUoZTEniafi34gogpfiTxNPxb8QUMnligjMk0jY2De5xyCMqj6LY294kseGrJDXXu4w0cRjGoHHN8hyGxrRtceAWpd1xNvit7f/tePcP8ANYK63K4XasdWXKsnq5yMuUleXEAbgM9wHVuWE1bR1qUqfalhRznq84/Q9qdXsZwW5pA07XS48pRYVhdbKU5g1UgBneOwbQz8z2hU5VTz1VRJUVM0k80ji58kji5ziekk7SV80U6zsLezh2aMcfV+LPOU5TeWERFMLQiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiICR0GMbvT22S3zyCrhcAGGXMuZkQRt3kbNxWFrq2qrZNeplc/qHQOAXmRAEREAREQBERAEREAREQBERAEREAREQBERAf//Z";
+const IMG_PAN="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAFEAMsDASIAAhEBAxEB/8QAHAABAAIDAQEBAAAAAAAAAAAAAAUGAgQHAwgB/8QARRAAAQMCAgUIBggEBgIDAAAAAAECAwQFBhESITFxcwcTIjVBgbHBMjM0UWFyFCM2QlJissIIkaHRFTdDdILhRVODs/D/xAAbAQEBAAIDAQAAAAAAAAAAAAAAAQIEAwUGB//EAC4RAQABAwIEBAYCAwEAAAAAAAABAgMRBAUhMUFRBhJxgRMiYZGx4QfBIzKh8P/aAAwDAQACEQMRAD8A+MgAAAAAAAAAAAAAAAAAABt223Vlxm5qkhc/8TtjW71LpZcLUdGiS1mjVTe5U6DdydveBQAXi9YSgn0prc5IJNvNr6C7vcU+uo6qhmWGqhdE/szTUu5e0DXAAAAAAAAAAAAAAAAAAAAAAAAAAAlcM0VLW1ytrNNYmN0lRq5Z6+34EUTeEfbJuH5gX+ijpoqdsdIxjIk2IxMkPYgopHxO0mOVqkhBcI1b9flHkmt3Z/0BunjWUtPWQrDUwslYvY5Nm73HqxzXtRzHI5qpmiouaKfoFKvWEZYtKa2uWVm3mnL0k3L2/wD7aVaWN8Ujo5GOY9q5K1yZKh14j7xa7fcIl+mRojkTVKmpze/yA5eDdvNE2grnQMl51mWk12jlqNIAAAAAAAAAAAAAAAAAAAAAAE3hH2ybh+ZCE3hH2ybh+YFlPKs9km4bvA9TyrfY5+G7wAq1ovVdbHIkEmlFnrifrav9u4utlxFQ3HRjV30eoX/Teu1fgvac4Mo/WN3oB1SprY482s6bvhsQjZ5pJnZvdn7k7EPMAVXFXWacNPFSJJbFXWacNPFSJAAAAAAAAAAAAfrUVyo1qKqrqRE7T1o4fpFVFBpaGm5G6WWeR0Sw2a3UEaSQIk03bK7b3e4CtWTClTU6M1erqeLboffd/YlLthCllj0re7mJET0XKqtd37ULOAOUXChqqCbmquF0buzPYu5e01jrdXTQVUKw1MTJY12tchUb1hF7NKa2P027eZeutNy9veBUgZzRSQyOjljdG9q5K1yZKhgAJvCPtk3D8yEJvCPtk3D8wLKeNd7DPw3eB7HhcPYKjhO8FAoxlH6xu9DEyj9Y3egF+AAFVxV1mnDTxUiSWxV1mnDTxUiQAAAAAAAAAAA27P1pTcRC8RyPjdpMcrVKPZ+tKbiIXUCTpq9rsmzJor+JNhuoqOTNFRU96FfK068V1su9QtPLnHzi5xu1tXu7O4DooISy4kobhoxyL9HqF+49dSr8FJiaWOFulI5E93vUDVulrorlHoVUKOcidF6anN3KUPEVldapEVs7JonLknY5PgqF1qa6STNsebG/1UrOLvYouJ5KBWSbwj7ZNw/MhCbwj7ZNw/MCynhcer6nhO8FPc17n1dU8F/goFHMo/WN3oYmUfrG70AvwAAquKus04aeKkSS2Kus04aeKkSAAAAAAAAAAAG3Z+tKbiIXUpVn60puIhdQBSrx1pU8RS6lJu3WdTxHeIGqXSyPfJaqd0j3PdoqmblzXapSy5WDqin3L4qBvELi72KLieSk0QuLvYouJ5KBWSbwj7ZNw/MhCbwj7ZNw/MCymvdOranhO8DYNa69W1PCd4AUgyj9Y3ehibVHRyyva5egzPavaBdgABVcVdZpw08VIklsVdZpw08VIkAAAAAAAAAAANuz9aU3EQupSrP1pTcRC6gCk3XrOp4rvEuxSLp1lU8V3iBrFysHVFPuXxUppcrB1RT7l8VA3iFxd7FFxPJSaIXF3sUXE8lArJN4R9sm4fmQhM4Ue1lVM57kaiR7V3gWc1Lq5v0KaLSRHvYrWpvPGpr1XNsKZJ+JTRcquVXOVVVe1QNWmoo4snO6b/euxDab6Sbz8P1vpJvAnwABV8VNd/iLX6K6PNomfepDlru6I6oyVEVFampSGqLe13ShXRX8K7AI0GUsb4pFjkarXJtRTEAAAAAAAADbs/WlNxELqUqz9aU3EQuoAo9z6yqeM/xUvBR7l1jU8V/ioGuXKwdUU+5fFSmlysHVFPuXxUDeIXFvsUPE8lJo0bw1FhjVURcnav5AVmmoZJMnSdBv9VJGGKOJujG1E8VMwAAAA/W+km8/D9b6SbwJ8H6iKq5ImantHB2v/kgEXU0c1VV/VtyajUzcuxCQorfBTZOy5yT8S9m420RETJEyQ/Qrn+Ieuqr5/I0DfxD11VfP5GgEAAAAAAAAbdn60puIhdSlWfrSm4iF1AFGuHt9RxXeKl5KnJQrJWTSSOyYsjlRE2qmYEdFG+V2ixquUuNmjWK2QxuyzRFzy3qRMcbI26LGo1PgTdv9jj3L4ge5pXf1DPm8jdNK7+oZ83kBGAAAAbtFbp6jJypzcf4lTbuQDTaiuVGtRVVdiISdFaXuyfUKrG/hTb/0SdJRwUyfVtzd2uXapsBcMWNaxMmpkZABQAAc/wAQ9dVXz+RoG/iHrqq+fyNAMQAAAAAAPSGGSZ2TG5+9exAPez9aU3EQt1RVRQ6lXSd+FCu0lI2BySKqukTYvuNkD3qKqWbUq6LfwoeAAAmbf7HHuXxIYmbf7HHuXxA9zSu/qGfN5G6alyjfLGxkbVc5XbE3ARR70tLNUuyiZmna5diElRWlEyfUrmv4EXxUlGNaxqNY1GtTYiIFw0qK2QwZOk+tk96pqTuN8AKAAAAAAAA5/iHrqq+fyNA38Q9dVXz+RoBiAAAAAB1PAdlt92wXAlVCnOJJIjZWanp0vf295yw7JyVfY6DiyfqLCSrt9wlcLfpS06LV06a82J0mp8W/2K6dvIS+Yatt00pFZzFQv+rGm1finb4jBlysExfMO3K1Kr5I+egTZNGmad/uIcihM0Hsce5fE0KOhnqVRWt0WfiXZ/2T1LTMp4msRVcre1QMI4XO1r0UNhjGsTop3mQCgACgBgkjVejE1gZgAAAAAAA5/iHrqq+fyNA38Q9dVXz+RoBiAAAAAB2Tkq+x0HFk/UcbOyclX2Og4sn6iwkrWACo/FRFTJUzRSn4qs1tgq4KiGlYx0mkrmt1NVUy15bO0uJXsY+lSbn/ALSSsK+mpMkP0AjMAAAAAaksjnKqbE9wp/WoYO9Jd5nT+tQMW2AAyAAAAAHP8Q9dVXz+RoG/iHrqq+fyNAMQAAAAAOyclX2Og4sn6jjZ2Tkq+x0HFk/UWElawAVAr2MfSpNz/wBpYSvYx9Kk3P8A2klY5oAAEZgAAAADRd6S7zOn9ahg70l3mdP61AxbYADIAAAAAc/xD11VfP5Ggb+Ieuqr5/I0AxAAAAAA7JyVfY6DiyfqONnZOSr7HQcWT9RYSVrABUCvYx9Kk3P/AGlhK9jH0qTc/wDaSVjmgAARmAAAAANF3pLvM6f1qGDvSXeZ0/rUDFtgAMgAAAbdptlwutUlLbqSWplX7rE2fFV2InxU6dhXkrij0KnEM/Ou2/RoXZNT5nbV3JlvU67XbrpdDGbtXHtHP7M6LdVfJ8zYh66qvn8jQLdyxU1PR8pl7paWFkMEc6NYxiZI1NBpUTcs3Yu26bkdYifu45jE4AAcqAAAHZOSr7HQcWT9Rxs7JyVfY6DiyfqLCStYAKgV7GPpUm5/7Swlexj6VJuf+0krHNAAAjMAAAAAaLvSXeZ0/rUNq72q42uRiV9JLAkrUfG5ydF6LrzRdimrT+tQxorprjzUzmExhtg9KaCeqnZBTQyTSvXJrI2q5zl+CIdEwryW1tVoVF+mWjiXXzEaosi712N/qu41NZuGn0VPmvVY+nWfSGdNFVXJz6goquvqm0tFTS1EztjI2qqnSsK8lcj9CpxDPzbdv0WF2a/8nbE3J/M6TZLNbLLS/R7ZRx07PvK1M3O+Kqute83zxG4+Kr97NGmjyR36/r/3FtUaeI/2alqttBa6VKW3UkVNCn3WNyz+KrtVfiptgjr9fLXY6X6Rc6yOBq+i3a9+5qa1PMRTcv3MRmqqfeZbHCIfJfLf/mrf/wDcJ+hpTCy8qFzhvGP7vc6dj2RTz6TGvy0kRGomvLcVo+xaOiqjT26ao4xEfh1dU5qkABssQAADsnJV9joOLJ+o42dk5KvsdBxZP1FhJWsAFQK9jH0qTc/9pYSvYx9Kk3P/AGklY5oAAEZgAAAHrR0tTW1LKakgknmeuTWRtVyr3ISZimMyPoOko6Svw7SUtbTxVEL6ePSZI1FReihT6vkotc14ilo66elpHKvOQ6OmqatjXLs78y82ljo7VSMemTmwMRU9y6KG5F6+Pevgp8gsbjqdJcq+BXMROfT7OxmimqIzDWw9h60WGDmrbRsicqZPlXXI/e5dfdsJUGM0kcMTpZpGRxsTNznLkiJ71U07ly5er81czMz34s4iIjgyNe411HbqV1VXVMVPC3a+R2SbvivwKFizlQoKLTprHG2unTVzzs0iavw7Xf0T4qcqvl5ud6qvpNzrJKh/3UVcmtT3NRNSdx6LbfDGo1OK73yU/wDZ9unv9nBXfpp4RxdExZypuXTpsOw6KbPpUzdf/Fq+K/yOZ19ZVV9U+qraiWomf6T5HKqqRlyuVJQMznk6WWpjdbl7ip3W/wBXWZxxLzEK/dautd6nu9Dtmm0NOLNOJ79Z92pXcqq5tfECo681SoqKmn2GgAb7jAAAAAA7JyVfY6DiyfqONn21/DHg+w4o/h8tLLpRosyVFUjKiPoys+udsd2p8FzQ6Tft9s7Jp6dRfpmaZqimcc4zEzn68nNZsTeq8tLmgL9jfktvtg5yqoWrdKBuvTib9YxPzM80zTcUE3du3TSblZ+NpbkVU/Tp6xzifVx3LdducVRgK9jH0qTc/wDaWEr2MfSpNz/2m/LCOaAABGYfrWue5GtarnKuSIiZqqlpwlgS9X/Qm5v6HRLr5+Zq9JPyt2u8Piddwrg2y4ea19NBz1VlrqZtb+7sb3f1Oh3LxBpdFmmJ81faP7np+XLRZqqc1wlyaXS56FTdldbqVdegqfXPTd93v/kdYw9YLTYabmbZSMizTJ8i63v3u2ru2EoDwW4bzqtfOLlWKe0cv37tui1TRycmtHKXFS3eptd8g0YYZ3xR1MSZ5NRyomk3d2p/I6NbKulrmQVVHURzwPVVa+NyKi6lPma/Sxy4guaxva7RrJUXJdi6a6hb66tp2SU9PVzxQzJlJGyRUa/eibT1uq8LWNRFNyzPkmefWP1+GtTqJp4Txd5xZyiWazadPSOS41iatCJ3QYv5neSZ9xyTE+KrziGVVr6pUhRc208fRjb3dq/Fc1INzmtarnORrUTNVVckQr91xLDDnFQokz/xr6Kf3O227Y9LoeNMZq7zz9uzCu7VWnKqogpYllqJWxsTtVSsXXE0kmcVA1Y27OccnSXcnYQVZVVFXKstRK6R3x2JuTsPE7hxZZSPfI9XyOc5yrmqquaqYgBAAAAAAAAA++v4Nf8AIS0/7mq/+5x8Cn3L/BliKzO5I7dYVroo7jFUVCrA9dFXI6Rypo56nal2JrPn/wDJVi5d2aPh0zOK4mcRnEYq4z9G9t8xF3j2d4KTjfk1sGJdOpZH/h9wdr+kQNTJ6/nbsdv1L8S7A+D6DcdVt96L2lrmiqOsf30mPpPB3Vdum5GKoy+VsZYHv+FpVdX0vO0meTaqHN0a+7Nfur8Fy7znOMfSpNz/ANp92yxxyxuilY2Rj0yc1yZoqe5UOOcpXJnhJt5obkyhcxHc4rqZr8oVXo69Ham5Fy+B9i8PfyTTqcWNdb+fpNPKcd4nlP8Az0dTf2/yfNRPB84YZwvecQzaNvpV5pFyfPJ0Y29/buTNTreEuTqzWbQqKxEuNYmvSkb9Wxfyt81z7i4wRRQQthgiZFGxMmsY1Ea1PciIZnPuXiPVazNFHyU9o5+8saLFNPPiAFNxfyhWeyadPTOS4Vqaubjd0GL+Z3kma7jptNpL2qr8lmnMuWqqKYzK3VE8NNA+eolZDExM3Pe5GtanxVTm+LuVGng06XD0aVEmxamROgnyt2rvXVvOd4mxPeMQz6dwqVWJFzZAzoxs3J2r8VzUr9ZV09JFztRK2NvZntXcnae523wratYr1U+ae3T9/j1alzUTPClRq6uqv8Zq6xJnJPJO973Jq0lVyquabCTo8Sc3Gqz06ulRNWiuSO3+4gal6SVMsjdjnqqd6nmeuiMcIareud0rLg766TKPPVG3U1P7miAUAAAAAAAAAAAAAA7LyUqrcIU7mqqKkr1RU7OkcaJzDWKLrYnIymlSSmVc3QSa293ai7gPrjBPKzfLLoUt20rrRJqze765ifB3bud/NDtuFMWWLE9NztqrWvkRM3wP6MrN7fNM0+J8UYaxnaLzoxLJ9Eq11czKu1fyu2L/AEX4FqpKiopKhlTSzyQTRrmySNytc1feipsPCb//AB/t26Zu2P8AFc7xHCfWn+4x9ctyxrrlrhVxh9klN5TP/H//ACfsOe4J5ZKyl0KTE0K1kKakqokRJW/M3Y7uyXeWflExXhyezUF3iu9K6jTnEV+nrRej0Vbt0vhlmfK6fC25bRuVum/bzEzOKo4xPCevf6TiXZzqbd23PllDkJifFFnw9DpV9SnPKmbII+lI7u7E+K5Ic7xfyo1NTp0uH41poti1MifWO+VNjd+tdxzieaWomfNPK+WV65ue9yq5y+9VU+n7b4VuXcV6qfLHbr79vz6Our1ERwpW3F3KBeL7p08DloKJdXNRO6T0/M7t3Jkm8psj2RsV8j2samtVcuSIRN1v9JR5xxKlRMnY1eim9SqXG5Vde/OokXR7GN1NTuPcabS2dLR8OzTiGpVVNU5lP3XE0bM4qBqSO/8AY5NSbk7Ss1NRPUyrLPK6R69qqeQNhgAAAAAAAAAAAAAAAAAAAAABasNY4u1p0Yahy11KmrQkd0mp+V3kuZVQB3bD2JbTfGJ9DqEbNlm6CTovTu7d6ZmvjH0qTc/9pxON743tkje5j2rm1zVyVFJqpxXeqmhjpZ6lJFjzRsqt+syXLUq9uzbtLkhZbndKO3t+ukzky1Rt1uX+xU7rfayuzY1eYhX7jV1rvXtIt7nPcrnuVzlXNVVc1U/CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z";
+
+/* ──────────────────────────────────────────────────────
+   MOCK DATA
+────────────────────────────────────────────────────── */
+const INIT_TENUES = [
+  {id:"VES-001",type:"veste",taille:"XL",caserne:"Vienne",date_service:"2022-03-15",lavages_anterieurs:12,lavages_depuis_app:5,statut:"en_service",agent_actuel:"DUPONT Martin",date_derniere_action:"2025-01-08"},
+  {id:"VES-002",type:"veste",taille:"L",caserne:"Vienne",date_service:"2021-06-01",lavages_anterieurs:0,lavages_depuis_app:47,statut:"en_service",agent_actuel:"BERNARD Lucas",date_derniere_action:"2024-12-01"},
+  {id:"VES-003",type:"veste",taille:"M",caserne:"Vienne",date_service:"2023-01-10",lavages_anterieurs:"inconnu",lavages_depuis_app:8,statut:"en_stock",agent_actuel:null,date_derniere_action:"2024-10-15"},
+  {id:"VES-004",type:"veste",taille:"XXL",caserne:"Vienne",date_service:"2020-09-22",lavages_anterieurs:20,lavages_depuis_app:33,statut:"archive",agent_actuel:null,motif_archive:"Coutures intérieures déchirées",date_derniere_action:"2024-08-01"},
+  {id:"VES-005",type:"veste",taille:"L",caserne:"Vienne",date_service:"2024-01-10",lavages_anterieurs:0,lavages_depuis_app:6,statut:"en_service",agent_actuel:"MARTIN Sophie",date_derniere_action:"2025-01-10"},
+  {id:"VES-006",type:"veste",taille:"S",caserne:"Vienne",date_service:"2023-07-01",lavages_anterieurs:5,lavages_depuis_app:40,statut:"en_stock",agent_actuel:null,date_derniere_action:"2024-11-10"},
+  {id:"PAN-001",type:"pantalon",taille:"L",caserne:"Vienne",date_service:"2022-03-15",lavages_anterieurs:10,lavages_depuis_app:4,statut:"en_service",agent_actuel:"DUPONT Martin",date_derniere_action:"2025-01-08"},
+  {id:"PAN-002",type:"pantalon",taille:"XL",caserne:"Vienne",date_service:"2021-06-01",lavages_anterieurs:5,lavages_depuis_app:22,statut:"en_stock",agent_actuel:null,date_derniere_action:"2024-11-30"},
+  {id:"PAN-003",type:"pantalon",taille:"M",caserne:"Vienne",date_service:"2023-04-05",lavages_anterieurs:0,lavages_depuis_app:51,statut:"en_service",agent_actuel:"MARTIN Sophie",date_derniere_action:"2025-01-10"},
+  {id:"PAN-004",type:"pantalon",taille:"S",caserne:"Vienne",date_service:"2024-01-15",lavages_anterieurs:0,lavages_depuis_app:3,statut:"en_stock",agent_actuel:null,date_derniere_action:"2024-11-01"},
+  {id:"PAN-005",type:"pantalon",taille:"L",caserne:"Vienne",date_service:"2022-11-20",lavages_anterieurs:8,lavages_depuis_app:37,statut:"en_service",agent_actuel:"LEROY Paul",date_derniere_action:"2024-12-01"},
+];
+const INIT_HISTO = [
+  {id:"E001",date:"2022-03-15",id_tenue:"VES-001",action:"Création",statut_initial:"en_stock",enregistre_par:{grade:"Adjudant",nom:"DUPUIS"}},
+  {id:"E002",date:"2022-05-04",id_tenue:"VES-001",action:"Affectation",portee_par:"GARNIER Romain",grade_porteur:"Sapeur 1re cl.",enregistre_par:{grade:"Sergent",nom:"MARTIN"}},
+  {id:"E003",date:"2022-09-17",id_tenue:"VES-001",action:"Change-Lavage",portee_par:"GARNIER Romain",grade_porteur:"Sapeur 1re cl.",tenue_souilee:"VES-001",tenue_propre:"VES-003",devenir:"stock",beneficiaire:null,enregistre_par:{grade:"Sergent",nom:"MARTIN"}},
+  {id:"E004",date:"2023-02-10",id_tenue:"VES-001",action:"Affectation",portee_par:"DUPONT Martin",grade_porteur:"Caporal-Chef",enregistre_par:{grade:"Adjudant",nom:"DUPUIS"}},
+  {id:"E005",date:"2023-07-22",id_tenue:"VES-001",action:"Change-Lavage",portee_par:"DUPONT Martin",grade_porteur:"Caporal-Chef",tenue_souilee:"VES-001",tenue_propre:"VES-006",devenir:"direct",beneficiaire:"DUPONT Martin",grade_ben:"Caporal-Chef",enregistre_par:{grade:"Caporal",nom:"LEROY"}},
+  {id:"E006",date:"2024-04-30",id_tenue:"VES-001",action:"Change-Lavage",portee_par:"DUPONT Martin",grade_porteur:"Caporal-Chef",tenue_souilee:"VES-001",tenue_propre:"VES-003",devenir:"direct",beneficiaire:"DUPONT Martin",grade_ben:"Caporal-Chef",enregistre_par:{grade:"Sergent-Chef",nom:"RENAUD"}},
+  {id:"E007",date:"2025-01-08",id_tenue:"VES-001",action:"Change-Lavage",portee_par:"DUPONT Martin",grade_porteur:"Caporal-Chef",tenue_souilee:"VES-001",tenue_propre:"VES-003",devenir:"direct",beneficiaire:"DUPONT Martin",grade_ben:"Caporal-Chef",enregistre_par:{grade:"Adjudant",nom:"DUPUIS"}},
+  {id:"E010",date:"2024-01-10",id_tenue:"VES-005",action:"Création",statut_initial:"en_stock",enregistre_par:{grade:"Adjudant",nom:"DUPUIS"}},
+  {id:"E011",date:"2024-03-01",id_tenue:"VES-005",action:"Affectation",portee_par:"FERRET Thomas",grade_porteur:"Caporal",enregistre_par:{grade:"Sergent",nom:"MARTIN"}},
+  {id:"E012",date:"2024-06-14",id_tenue:"VES-005",action:"Change-Lavage",portee_par:"FERRET Thomas",grade_porteur:"Caporal",tenue_souilee:"VES-005",tenue_propre:"VES-002",devenir:"stock",beneficiaire:null,enregistre_par:{grade:"Caporal",nom:"LEROY"}},
+  {id:"E013",date:"2024-08-22",id_tenue:"VES-005",action:"Affectation",portee_par:"MARTIN Sophie",grade_porteur:"Sergent",enregistre_par:{grade:"Adjudant-Chef",nom:"BLANC"}},
+  {id:"E014",date:"2024-12-05",id_tenue:"VES-005",action:"Change-Lavage",portee_par:"MARTIN Sophie",grade_porteur:"Sergent",tenue_souilee:"VES-005",tenue_propre:"VES-002",devenir:"direct",beneficiaire:"FERRET Thomas",grade_ben:"Caporal",enregistre_par:{grade:"Sergent",nom:"FERRET"}},
+  {id:"E015",date:"2025-01-10",id_tenue:"VES-005",action:"Change-Lavage",portee_par:"MARTIN Sophie",grade_porteur:"Sergent",tenue_souilee:"VES-005",tenue_propre:"VES-003",devenir:"direct",beneficiaire:"MARTIN Sophie",grade_ben:"Sergent",enregistre_par:{grade:"Adjudant",nom:"DUPUIS"}},
+  {id:"E020",date:"2022-03-15",id_tenue:"PAN-001",action:"Création",statut_initial:"en_stock",enregistre_par:{grade:"Adjudant",nom:"DUPUIS"}},
+  {id:"E021",date:"2022-05-04",id_tenue:"PAN-001",action:"Affectation",portee_par:"GARNIER Romain",grade_porteur:"Sapeur 1re cl.",enregistre_par:{grade:"Sergent",nom:"MARTIN"}},
+  {id:"E022",date:"2022-09-17",id_tenue:"PAN-001",action:"Change-Lavage",portee_par:"GARNIER Romain",grade_porteur:"Sapeur 1re cl.",tenue_souilee:"PAN-001",tenue_propre:"PAN-002",devenir:"stock",beneficiaire:null,enregistre_par:{grade:"Sergent",nom:"MARTIN"}},
+  {id:"E023",date:"2023-02-10",id_tenue:"PAN-001",action:"Affectation",portee_par:"DUPONT Martin",grade_porteur:"Caporal-Chef",enregistre_par:{grade:"Adjudant",nom:"DUPUIS"}},
+  {id:"E024",date:"2023-10-05",id_tenue:"PAN-001",action:"Change-Lavage",portee_par:"DUPONT Martin",grade_porteur:"Caporal-Chef",tenue_souilee:"PAN-001",tenue_propre:"PAN-002",devenir:"direct",beneficiaire:"DUPONT Martin",grade_ben:"Caporal-Chef",enregistre_par:{grade:"Caporal",nom:"LEROY"}},
+  {id:"E025",date:"2024-03-19",id_tenue:"PAN-001",action:"Change-Lavage",portee_par:"DUPONT Martin",grade_porteur:"Caporal-Chef",tenue_souilee:"PAN-001",tenue_propre:"PAN-004",devenir:"direct",beneficiaire:"DUPONT Martin",grade_ben:"Caporal-Chef",enregistre_par:{grade:"Sergent-Chef",nom:"RENAUD"}},
+  {id:"E026",date:"2024-09-11",id_tenue:"PAN-001",action:"Change-Lavage",portee_par:"DUPONT Martin",grade_porteur:"Caporal-Chef",tenue_souilee:"PAN-001",tenue_propre:"PAN-002",devenir:"stock",beneficiaire:null,enregistre_par:{grade:"Adjudant",nom:"DUPUIS"}},
+  {id:"E027",date:"2025-01-08",id_tenue:"PAN-001",action:"Change-Lavage",portee_par:"DUPONT Martin",grade_porteur:"Caporal-Chef",tenue_souilee:"PAN-001",tenue_propre:"PAN-004",devenir:"direct",beneficiaire:"DUPONT Martin",grade_ben:"Caporal-Chef",enregistre_par:{grade:"Adjudant",nom:"DUPUIS"}},
+];
+const GRADE_GROUPS=[
+  {label:"Hommes du rang",grades:["Sapeur 1re cl.","Caporal","Caporal-Chef"]},
+  {label:"Sous-officiers",grades:["Sergent","Sergent-Chef","Adjudant","Adjudant-Chef"]},
+  {label:"Officiers",grades:["Lieutenant","Capitaine","Commandant","Lieutenant-Colonel","Colonel"]},
+];
+
+/* ──────────────────────────────────────────────────────
+   UTILS
+────────────────────────────────────────────────────── */
+const toISO=v=>{if(!v||v==="")return"";if(/^\d{4}-\d{2}-\d{2}$/.test(String(v)))return String(v);const d=new Date(v);if(!isNaN(d))return d.toISOString().split("T")[0];return"";};
+const fmt=v=>{const iso=toISO(v);if(!iso)return"—";const[y,m,d]=iso.split("-");return`${d}/${m}/${y}`;};
+const today=()=>new Date().toISOString().split("T")[0];
+const normTenue=t=>({...t,lavages_anterieurs:t.lavages_anterieurs==="inconnu"?"inconnu":parseInt(t.lavages_anterieurs)||0,lavages_depuis_app:parseInt(t.lavages_depuis_app)||0,date_service:toISO(t.date_service)||t.date_service,date_derniere_action:toISO(t.date_derniere_action)||t.date_derniere_action});
+const lavN  = t=>t.lavages_anterieurs==="inconnu"?t.lavages_depuis_app:Number(t.lavages_anterieurs)+t.lavages_depuis_app;
+const lavD  = t=>t.lavages_anterieurs==="inconnu"?`?+${t.lavages_depuis_app}`:lavN(t);
+const authOk= c=>c.trim()==="1966A";
+const API_URL='https://script.google.com/macros/s/AKfycbzBTENzeyXlGzKHdmW4WGlYzAgANr1yGjKBG4VGyDSpwI0FkaI916XnZHj4pB7m1oxbqg/exec';
+const DEMO=true; // Mettre false + redéployer le script GAS pour connecter l'API
+const apiCall=(action,data={})=>{
+  if(DEMO)return Promise.resolve(null);
+  const p=new URLSearchParams({action,data:JSON.stringify(data)});
+  return fetch(API_URL+'?'+p.toString()).then(r=>r.json()).catch(e=>{console.warn('API:',action,e);return null;});
+};
+
+const nextId= (list,pfx)=>{const ns=list.filter(t=>t.id.startsWith(pfx)).map(t=>parseInt(t.id.split("-")[1])||0);return`${pfx}-${String((ns.length?Math.max(...ns):0)+1).padStart(3,"0")}`;};
+
+/* ──────────────────────────────────────────────────────
+   TOKENS
+────────────────────────────────────────────────────── */
+const T={
+  bg:"#F0F2F8",surface:"#FFF",surfaceAlt:"#F6F7FB",
+  border:"#E2E6F0",borderSub:"#EDF0F8",
+  navy:"#0F1E38",navyMid:"#1A3260",
+  navyLight:"rgba(15,30,56,0.07)",navyGlow:"rgba(15,30,56,0.14)",
+  red:"#C8191A",redLight:"rgba(200,25,26,0.07)",redBd:"rgba(200,25,26,0.18)",
+  svc:{c:"#0A5C2E",bg:"rgba(10,92,46,0.08)",bd:"rgba(10,92,46,0.16)",dot:"#16A34A",label:"En service"},
+  stk:{c:"#1246A0",bg:"rgba(18,70,160,0.08)",bd:"rgba(18,70,160,0.18)",dot:"#3B82F6",label:"En stock"},
+  arc:{c:"#5A6272",bg:"rgba(90,98,114,0.07)",bd:"rgba(90,98,114,0.14)",dot:"#9CA3AF",label:"Archivée"},
+  del:{c:"#7F1D1D",bg:"rgba(127,29,29,0.07)",bd:"rgba(127,29,29,0.18)",dot:"#DC2626",label:"Supprimée"},
+  warn:{c:"#723209",bg:"rgba(114,50,9,0.07)",bd:"rgba(114,50,9,0.18)"},
+  t1:"#0D1226",t2:"#3D4461",t3:"#8891AA",t4:"#C2C9DC",
+};
+const SMAP={en_service:T.svc,en_stock:T.stk,archive:T.arc,supprime:T.del};
+
+/* ──────────────────────────────────────────────────────
+   WASH PROGRESS BAR
+────────────────────────────────────────────────────── */
+function WashBar({t,compact=false}){
+  const n=lavN(t),pct=Math.min(n/50*100,100);
+  const col=n>=50?"#DC2626":n>=45?"#D97706":n>=35?"#F59E0B":"#16A34A";
+  if(compact) return <div style={{display:"flex",alignItems:"center",gap:5}}>
+    <div style={{flex:1,height:4,background:"rgba(0,0,0,0.07)",borderRadius:99,overflow:"hidden"}}>
+      <div style={{width:`${pct}%`,height:"100%",background:col,borderRadius:99,transition:"width .3s"}}/>
+    </div>
+    <span style={{fontSize:10,fontWeight:700,color:col,flexShrink:0,minWidth:22,textAlign:"right"}}>{lavD(t)}</span>
+  </div>;
+  return <div style={{display:"flex",flexDirection:"column",gap:3}}>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
+      <span style={{fontSize:9.5,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:".07em"}}>Lavages</span>
+      <span style={{fontSize:11,fontWeight:800,color:col}}>{lavD(t)}<span style={{color:T.t3,fontWeight:500}}>/50</span></span>
+    </div>
+    <div style={{height:6,background:"rgba(0,0,0,0.06)",borderRadius:99,overflow:"hidden"}}>
+      <div style={{width:`${pct}%`,height:"100%",background:col,borderRadius:99,transition:"width .4s"}}/>
+    </div>
+    {n>=45&&<span style={{fontSize:9,fontWeight:800,color:col,letterSpacing:".04em"}}>{n>=50?"⚠ SEUIL ATTEINT — action requise":"⚠ Seuil imminent"}</span>}
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   ATOMS
+────────────────────────────────────────────────────── */
+function Badge({statut}){
+  const s=SMAP[statut]||T.arc;
+  return <span style={{display:"inline-flex",alignItems:"center",gap:4,padding:"2px 8px 2px 6px",background:s.bg,borderRadius:99,fontSize:10,fontWeight:700,color:s.c,border:`1px solid ${s.bd}`,whiteSpace:"nowrap"}}>
+    <span style={{width:4,height:4,borderRadius:99,background:s.dot,flexShrink:0}}/>{s.label}
+  </span>;
+}
+function Field({label,children}){
+  return <div style={{display:"flex",flexDirection:"column",gap:4}}>
+    <span style={{fontSize:9.5,fontWeight:800,letterSpacing:".12em",textTransform:"uppercase",color:T.t3}}>{label}</span>
+    {children}
+  </div>;
+}
+function TInput({value,onChange,placeholder,type="text",autoFocus,style={},onKeyDown,icon:Ico}){
+  return <div style={{position:"relative"}}>
+    {Ico&&<span style={{position:"absolute",left:10,top:"50%",transform:"translateY(-50%)",color:T.t3,display:"flex",pointerEvents:"none"}}><Ico size={13}/></span>}
+    <input value={value} onChange={onChange} placeholder={placeholder} type={type} autoFocus={autoFocus} onKeyDown={onKeyDown}
+      style={{width:"100%",padding:Ico?"8px 10px 8px 30px":"8px 10px",background:T.surface,border:`1.5px solid ${T.border}`,borderRadius:8,fontSize:13,color:T.t1,outline:"none",fontFamily:"inherit",transition:"border-color .14s",...style}}/>
+  </div>;
+}
+function AgentInput({value,onChange,placeholder,tenues}){
+  const [open,setOpen]=useState(false);
+  const agents=[...new Set(tenues.filter(t=>t.agent_actuel).map(t=>t.agent_actuel))].sort();
+  const filtered=value.length>=1?agents.filter(a=>a.toLowerCase().includes(value.toLowerCase())):[];
+  return <div style={{position:"relative"}}>
+    <div style={{position:"relative"}}>
+      <span style={{position:"absolute",left:10,top:"50%",transform:"translateY(-50%)",color:T.t3,display:"flex",pointerEvents:"none"}}><User size={13}/></span>
+      <input value={value} autoComplete="off"
+        onChange={e=>{onChange(e.target.value.toUpperCase());setOpen(true);}}
+        onBlur={()=>setTimeout(()=>setOpen(false),150)}
+        onFocus={()=>setOpen(true)}
+        placeholder={placeholder}
+        style={{width:"100%",padding:"8px 10px 8px 30px",background:T.surface,border:`1.5px solid ${T.border}`,borderRadius:8,fontSize:13,color:T.t1,outline:"none",fontFamily:"inherit"}}/>
+    </div>
+    {open&&filtered.length>0&&<div style={{position:"absolute",top:"calc(100% + 3px)",left:0,right:0,background:T.surface,border:`1.5px solid ${T.border}`,borderRadius:8,boxShadow:"0 8px 24px rgba(0,0,0,0.12)",zIndex:300,maxHeight:160,overflowY:"auto"}}>
+      {filtered.map(a=><button key={a} onMouseDown={()=>{onChange(a);setOpen(false);}}
+        style={{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"8px 11px",background:"none",border:"none",borderBottom:`1px solid ${T.borderSub}`,cursor:"pointer",fontFamily:"inherit",fontSize:12.5,color:T.t1}}>
+        <User size={12} color={T.t3}/><span style={{fontWeight:600}}>{a}</span>
+      </button>)}
+    </div>}
+  </div>;
+}
+
+/* Compact buttons */
+const B={display:"inline-flex",alignItems:"center",justifyContent:"center",gap:5,borderRadius:8,fontFamily:"inherit",fontWeight:700,cursor:"pointer",border:"none",transition:"all .13s",fontSize:12.5,padding:"7px 13px"};
+function BtnNavy({children,onClick,disabled,icon:Ico,full=false,style={}}){
+  return <button onClick={onClick} disabled={disabled} style={{...B,width:full?"100%":"auto",background:disabled?"#CBD5E1":T.navy,color:disabled?"#94A3B8":"#fff",boxShadow:disabled?"none":`0 2px 8px ${T.navyGlow}`,opacity:disabled?.6:1,...style}}>
+    {Ico&&<Ico size={13}/>}{children}
+  </button>;
+}
+function BtnRed({children,onClick,icon:Ico,full=false,style={}}){
+  return <button onClick={onClick} style={{...B,width:full?"100%":"auto",background:T.red,color:"#fff",...style}}>{Ico&&<Ico size={13}/>}{children}</button>;
+}
+function BtnGhost({children,onClick,icon:Ico,full=false,style={}}){
+  return <button onClick={onClick} style={{...B,width:full?"100%":"auto",background:"transparent",color:T.t2,border:`1.5px solid ${T.border}`,...style}}>{Ico&&<Ico size={13}/>}{children}</button>;
+}
+function BtnWarn({children,onClick,icon:Ico,full=false,style={}}){
+  return <button onClick={onClick} style={{...B,width:full?"100%":"auto",background:T.warn.bg,color:T.warn.c,border:`1.5px solid ${T.warn.bd}`,...style}}>{Ico&&<Ico size={13}/>}{children}</button>;
+}
+
+/* ──────────────────────────────────────────────────────
+   GRADE ICON
+────────────────────────────────────────────────────── */
+function GradeIcon({grade,size=28}){
+  const S=size,r2=Math.max(2,S*0.08);
+  const uid=`gi${grade.replace(/[^a-z]/gi,"")}${S}`;
+  const R="#E82018",W="#F8F6F4",O="#F5A800",K="#1A0800",L=0.55;
+  const stripe=(x,mc,oc,mw=.13,ow=.21)=>{const cx=S/2+x,x1=cx-L*(S/2),y1=S,x2=cx+L*(S/2),y2=0;return <g key={x}>{oc&&<line x1={x1} y1={y1} x2={x2} y2={y2} stroke={oc} strokeWidth={S*ow}/>}<line x1={x1} y1={y1} x2={x2} y2={y2} stroke={mc} strokeWidth={S*mw}/></g>;};
+  const stripes=(n,mc,oc=null)=>{const sp=S*.22;return({1:[0],2:[-sp/2,sp/2],3:[-sp,0,sp]}[n]||[0]).map(o=>stripe(o,mc,oc));};
+  const hBars=bars=>{const gap=S*.065,px=S*.12,th=bars.reduce((a,b)=>a+b.h*S,0)+(bars.length-1)*gap;let y=(S-th)/2;return bars.map((b,i)=>{const bh=b.h*S,el=<rect key={i} x={px} y={y} width={S-px*2} height={bh} fill={b.c}/>;y+=bh+gap;return el;});};
+  const frame=(c=W,w=2)=><rect x={w/2} y={w/2} width={S-w} height={S-w} rx={r2} fill="none" stroke={c} strokeWidth={w}/>;
+  let cnt=null,brd=null;
+  if(grade==="Sapeur 1re cl."){cnt=stripes(1,R,null,.20);brd=frame();}
+  else if(grade==="Caporal"){cnt=stripes(2,R,null,.16);brd=frame();}
+  else if(grade==="Caporal-Chef"){cnt=stripes(3,R,null,.13);brd=frame();}
+  else if(grade==="Sergent"){cnt=stripes(1,R,W,.13,.22);}
+  else if(grade==="Sergent-Chef"){cnt=stripes(3,R,W,.10,.17);}
+  else if(grade==="Adjudant"){const bH=S*.28,bY=(S-bH)/2,rH=S*.07,rY=(S-rH)/2,px=S*.10;cnt=[<rect key="o" x={px} y={bY} width={S-px*2} height={bH} fill={O}/>,<rect key="r" x={px} y={rY} width={S-px*2} height={rH} fill={R}/>];}
+  else if(grade==="Adjudant-Chef"){const bH=S*.28,bY=(S-bH)/2,rH=S*.07,rY=(S-rH)/2,px=S*.10;cnt=[<rect key="w" x={px} y={bY} width={S-px*2} height={bH} fill={W}/>,<rect key="r" x={px} y={rY} width={S-px*2} height={rH} fill={R}/>];}
+  else if(grade==="Lieutenant"){cnt=hBars([{c:W,h:.14},{c:W,h:.14}]);brd=frame();}
+  else if(grade==="Capitaine"){cnt=hBars([{c:W,h:.12},{c:W,h:.12},{c:W,h:.12}]);brd=frame();}
+  else if(grade==="Commandant"){cnt=hBars([{c:W,h:.10},{c:W,h:.10},{c:W,h:.10},{c:W,h:.10}]);brd=frame();}
+  else if(grade==="Lieutenant-Colonel"){cnt=hBars([{c:W,h:.09},{c:O,h:.09},{c:W,h:.09},{c:O,h:.09},{c:W,h:.09}]);brd=frame();}
+  else if(grade==="Colonel"){cnt=hBars([{c:W,h:.09},{c:W,h:.09},{c:W,h:.09},{c:W,h:.09},{c:W,h:.09}]);brd=frame();}
+  return <svg width={S} height={S} viewBox={`0 0 ${S} ${S}`} style={{flexShrink:0,display:"block"}}><defs><clipPath id={uid}><rect x={0} y={0} width={S} height={S} rx={r2}/></clipPath></defs><rect x={0} y={0} width={S} height={S} rx={r2} fill={K}/><g clipPath={`url(#${uid})`}>{cnt}</g>{brd}</svg>;
+}
+
+/* ──────────────────────────────────────────────────────
+   BOTTOM SHEET
+────────────────────────────────────────────────────── */
+function Sheet({children,onClose,title,sub}){
+  useEffect(()=>{const h=e=>{if(e.key==="Escape")onClose();};document.addEventListener("keydown",h);return()=>document.removeEventListener("keydown",h);},[onClose]);
+  return <div style={{position:"fixed",inset:0,background:"rgba(8,12,26,0.50)",backdropFilter:"blur(5px)",zIndex:900,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={onClose}>
+    <div onClick={e=>e.stopPropagation()} style={{background:T.surfaceAlt,border:`1px solid ${T.border}`,borderRadius:"18px 18px 0 0",width:"100%",maxWidth:640,maxHeight:"92vh",display:"flex",flexDirection:"column",boxShadow:"0 -6px 32px rgba(0,0,0,0.14)",animation:"slideUp .24s cubic-bezier(.22,1,.36,1)"}}>
+      <div style={{padding:"9px 18px 0",flexShrink:0}}>
+        <div style={{width:28,height:3,background:T.border,borderRadius:99,margin:"0 auto 12px",cursor:"pointer"}} onClick={onClose}/>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12,paddingBottom:12,borderBottom:`1px solid ${T.border}`}}>
+          <div>
+            <div style={{fontSize:15,fontWeight:700,color:T.t1}}>{title}</div>
+            {sub&&<div style={{fontSize:10.5,color:T.t3,marginTop:1}}>{sub}</div>}
+          </div>
+          <button onClick={onClose} style={{width:28,height:28,borderRadius:99,background:T.navyLight,border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:T.t2}}><X size={13}/></button>
+        </div>
+      </div>
+      <div style={{overflowY:"auto",padding:"0 18px 40px",flex:1}}>{children}</div>
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   MASTER MODAL
+────────────────────────────────────────────────────── */
+function MasterModal({onSuccess,onClose,action}){
+  const [code,setCode]=useState(""),[err,setErr]=useState(false),[shake,setShake]=useState(false);
+  const go=()=>{if(authOk(code)){onSuccess();}else{setShake(true);setErr(true);setCode("");setTimeout(()=>setShake(false),400);}};
+  return <div style={{position:"fixed",inset:0,background:"rgba(8,12,26,0.65)",backdropFilter:"blur(10px)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20}} onClick={onClose}>
+    <div onClick={e=>e.stopPropagation()} style={{background:"#fff",border:`1px solid ${T.border}`,borderRadius:16,width:"100%",maxWidth:300,padding:"22px 18px",animation:shake?"shake .4s ease":"popIn .2s ease",boxShadow:"0 18px 50px rgba(0,0,0,0.18)"}}>
+      <div style={{textAlign:"center",marginBottom:16}}>
+        <div style={{width:42,height:42,borderRadius:11,background:T.navy,margin:"0 auto 9px",display:"flex",alignItems:"center",justifyContent:"center"}}><Shield size={18} color="#fff"/></div>
+        <div style={{fontSize:14,fontWeight:700,color:T.t1}}>Niveau supérieur requis</div>
+        <div style={{fontSize:11.5,color:T.t3,marginTop:3,lineHeight:1.5}}>{action}</div>
+      </div>
+      <TInput value={code} onChange={e=>{setCode(e.target.value);setErr(false);}} type="password" placeholder="Code maître" autoFocus style={{textAlign:"center",fontSize:17,letterSpacing:7,marginBottom:err?6:10}} onKeyDown={e=>{if(e.key==="Enter")go();}}/>
+      {err&&<p style={{color:T.red,fontSize:11,textAlign:"center",marginBottom:8,fontWeight:700}}>Code incorrect</p>}
+      <BtnNavy onClick={go} icon={Check} full style={{width:"100%",justifyContent:"center"}}>Confirmer</BtnNavy>
+      <BtnGhost onClick={onClose} full style={{width:"100%",justifyContent:"center",marginTop:6}}>Annuler</BtnGhost>
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   GRADE PICKER
+────────────────────────────────────────────────────── */
+function GradePicker({value,onChange,onClose}){
+  return <Sheet onClose={onClose} title="Grade de l'opérateur">
+    {GRADE_GROUPS.map(g=><div key={g.label} style={{marginBottom:12}}>
+      <div style={{fontSize:9,fontWeight:800,letterSpacing:".14em",textTransform:"uppercase",color:T.t3,marginBottom:5}}>{g.label}</div>
+      {g.grades.map(gr=><button key={gr} onClick={()=>{onChange(gr);onClose();}}
+        style={{display:"flex",alignItems:"center",gap:9,padding:"7px 10px",background:value===gr?T.navyLight:T.surface,border:`1.5px solid ${value===gr?"rgba(15,30,56,0.22)":T.border}`,borderRadius:9,cursor:"pointer",fontFamily:"inherit",width:"100%",marginBottom:3}}>
+        <GradeIcon grade={gr} size={24}/><span style={{fontSize:12.5,fontWeight:600,color:T.t1,flex:1,textAlign:"left"}}>{gr}</span>
+        {value===gr&&<Check size={12} color={T.navy}/>}
+      </button>)}
+    </div>)}
+  </Sheet>;
+}
+
+/* Op row */
+function OpRow({grade,setGrade,nom,setNom,onShowGrade}){
+  return <div style={{borderTop:`1px solid ${T.border}`,paddingTop:11,marginTop:2}}>
+    <div style={{fontSize:9,fontWeight:800,letterSpacing:".12em",textTransform:"uppercase",color:T.t3,marginBottom:6}}>Enregistré par</div>
+    <div style={{display:"flex",gap:7,alignItems:"center"}}>
+      <button onClick={onShowGrade} style={{display:"flex",alignItems:"center",gap:5,padding:"6px 9px",background:T.surface,border:`1.5px solid ${T.border}`,borderRadius:8,cursor:"pointer",fontFamily:"inherit",flexShrink:0}}>
+        <GradeIcon grade={grade} size={18}/><span style={{fontSize:10.5,fontWeight:700,color:T.t2,whiteSpace:"nowrap"}}>{grade.split(/[ -]/)[0]}</span>
+      </button>
+      <TInput value={nom} onChange={e=>setNom(e.target.value.toUpperCase())} placeholder="NOM"/>
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   WASH EDIT MODAL (code maître requis)
+────────────────────────────────────────────────────── */
+function WashEditModal({tenue,onSave,onClose}){
+  const [val,setVal]=useState(String(lavN(tenue)));
+  const [err,setErr]=useState("");
+  const save=()=>{
+    const n=parseInt(val);
+    if(isNaN(n)||n<0){setErr("Nombre invalide");return;}
+    if(n>99){setErr("Maximum 99");return;}
+    onSave(n);
+  };
+  const cur=lavN(tenue);
+  return <div style={{position:"fixed",inset:0,background:"rgba(8,12,26,0.65)",backdropFilter:"blur(8px)",zIndex:1100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}} onClick={onClose}>
+    <div onClick={e=>e.stopPropagation()} style={{background:"#fff",border:`1px solid ${T.border}`,borderRadius:16,width:"100%",maxWidth:300,padding:"22px 18px",boxShadow:"0 18px 50px rgba(0,0,0,0.18)",animation:"popIn .2s ease"}}>
+      <div style={{textAlign:"center",marginBottom:16}}>
+        <div style={{width:42,height:42,borderRadius:11,background:T.navyLight,margin:"0 auto 9px",display:"flex",alignItems:"center",justifyContent:"center"}}><Droplets size={18} color={T.navy}/></div>
+        <div style={{fontSize:14,fontWeight:700,color:T.t1}}>Corriger les lavages</div>
+        <div style={{fontSize:11.5,color:T.t3,marginTop:3}}>{tenue.id} · actuellement {cur} lavage{cur>1?"s":""}</div>
+      </div>
+      <div style={{display:"flex",alignItems:"center",gap:8,justifyContent:"center",marginBottom:10}}>
+        <button onClick={()=>setVal(v=>{const n=Math.max(0,parseInt(v||0)-1);return String(n);})} style={{width:36,height:36,borderRadius:99,background:T.bg,border:`1.5px solid ${T.border}`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"inherit"}}><Minus size={15} color={T.t2}/></button>
+        <input value={val} onChange={e=>{setVal(e.target.value);setErr("");}} type="number"
+          style={{width:80,textAlign:"center",padding:"8px",background:T.surface,border:`1.5px solid ${T.border}`,borderRadius:8,fontSize:20,fontWeight:800,color:T.t1,outline:"none",fontFamily:"'IBM Plex Mono',monospace"}}/>
+        <button onClick={()=>setVal(v=>{const n=Math.min(99,parseInt(v||0)+1);return String(n);})} style={{width:36,height:36,borderRadius:99,background:T.bg,border:`1.5px solid ${T.border}`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"inherit"}}><Plus size={15} color={T.t2}/></button>
+      </div>
+      {err&&<p style={{color:T.red,fontSize:11,textAlign:"center",marginBottom:8,fontWeight:700}}>{err}</p>}
+      <div style={{height:6,background:"rgba(0,0,0,0.06)",borderRadius:99,overflow:"hidden",marginBottom:14}}>
+        <div style={{width:`${Math.min((parseInt(val)||0)/50*100,100)}%`,height:"100%",background:(parseInt(val)||0)>=50?"#DC2626":(parseInt(val)||0)>=45?"#D97706":"#16A34A",borderRadius:99,transition:"width .2s"}}/>
+      </div>
+      <BtnNavy onClick={save} full style={{width:"100%",justifyContent:"center"}} icon={Check}>Enregistrer</BtnNavy>
+      <BtnGhost onClick={onClose} full style={{width:"100%",justifyContent:"center",marginTop:6}}>Annuler</BtnGhost>
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   TIMELINE EVENT
+────────────────────────────────────────────────────── */
+function NarrRow({Ico,iconC,label,main,sub,badge}){
+  return <div style={{display:"flex",alignItems:"flex-start",gap:8,padding:"3px 0"}}>
+    <div style={{width:20,height:20,borderRadius:5,background:`${iconC}18`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1}}><Ico size={10} color={iconC}/></div>
+    <div style={{flex:1,minWidth:0}}>
+      <div style={{fontSize:9,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:".10em",marginBottom:1}}>{label}</div>
+      <div style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}}>
+        <span style={{fontSize:12.5,fontWeight:700,color:T.t1}}>{main}</span>
+        {sub&&<span style={{fontSize:10.5,color:T.t3}}>{sub}</span>}
+        {badge&&<span style={{fontSize:9.5,padding:"2px 7px",borderRadius:99,fontWeight:700,...badge}}>{badge.l}</span>}
+      </div>
+    </div>
+  </div>;
+}
+function SmBadge(p){return{background:p.bg,color:p.c,border:`1px solid ${p.bd}`,l:p.l};}
+
+function TimelineEvent({evt,tenues,isLast}){
+  const [open,setOpen]=useState(false);
+  const tSuil=tenues.find(t=>t.id===evt.tenue_souilee)||null;
+  const tProp=tenues.find(t=>t.id===evt.tenue_propre)||null;
+  const conf={
+    "Change-Lavage":{Ico:ArrowLeftRight,c:T.stk.c,bg:T.stk.bg,bd:T.stk.bd,label:"Change · Lavage"},
+    "Création":{Ico:Plus,c:T.svc.c,bg:T.svc.bg,bd:T.svc.bd,label:"Mise en service"},
+    "Affectation":{Ico:UserCheck,c:T.svc.c,bg:T.svc.bg,bd:T.svc.bd,label:"Affectation"},
+    "Archivage":{Ico:Archive,c:T.warn.c,bg:T.warn.bg,bd:T.warn.bd,label:"Archivage"},
+    "Suppression":{Ico:Trash2,c:T.del.c,bg:T.del.bg,bd:T.del.bd,label:"Suppression"},
+    "Correction lavages":{Ico:Edit3,c:T.t3,bg:"rgba(0,0,0,0.05)",bd:T.border,label:"Correction"},
+  }[evt.action]||{Ico:Edit3,c:T.t3,bg:"rgba(0,0,0,0.05)",bd:T.border,label:evt.action};
+  const {Ico,c,bg,bd,label}=conf;
+  return <div style={{display:"flex",gap:10,position:"relative"}}>
+    {!isLast&&<div style={{position:"absolute",left:12,top:26,bottom:-12,width:1.5,background:`linear-gradient(to bottom,${bd},transparent)`}}/>}
+    <div style={{width:25,height:25,borderRadius:7,background:bg,border:`1.5px solid ${bd}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1,zIndex:1}}><Ico size={11} color={c}/></div>
+    <div style={{flex:1,background:T.surface,border:`1px solid ${T.border}`,borderRadius:10,marginBottom:isLast?0:12,overflow:"hidden"}}>
+      <button onClick={()=>setOpen(o=>!o)} style={{width:"100%",padding:"8px 12px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:8,textAlign:"left"}}>
+        <span style={{fontSize:11,fontWeight:700,color:c,flex:1}}>{label}</span>
+        <span style={{fontSize:10,color:T.t3}}>{fmt(evt.date)}</span>
+        <ChevronDown size={11} color={T.t3} style={{transform:open?"rotate(180deg)":"none",transition:"transform .16s"}}/>
+      </button>
+      {open&&<div style={{borderTop:`1px solid ${T.borderSub}`,padding:"10px 12px 11px",display:"flex",flexDirection:"column",gap:7}}>
+        {evt.action==="Change-Lavage"&&<>
+          {/* Ligne 1 : qui portait */}
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <span style={{fontSize:9,fontWeight:800,color:T.t3,textTransform:"uppercase",letterSpacing:".10em",width:64,flexShrink:0}}>Portée par</span>
+            <span style={{fontSize:12.5,fontWeight:700,color:T.t1}}>{evt.portee_par||"—"}</span>
+            {evt.grade_porteur&&<span style={{fontSize:10,color:T.t3}}>· {evt.grade_porteur}</span>}
+          </div>
+
+          {/* Ligne 2 : tenue souillée rendue → destin */}
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <span style={{fontSize:9,fontWeight:800,color:T.t3,textTransform:"uppercase",letterSpacing:".10em",width:64,flexShrink:0}}>Rendue</span>
+            <span style={{fontSize:12,fontWeight:700,color:T.t1,fontFamily:"'IBM Plex Mono',monospace"}}>{evt.tenue_souilee||"—"}</span>
+            <span style={{fontSize:10,color:T.t3,flex:1}}>{tSuil?`${tSuil.type==="veste"?"veste":"pantalon"} · ${tSuil.taille}`:""}</span>
+            {evt.devenir==="stock"
+              ?<span style={{fontSize:9.5,fontWeight:700,padding:"2px 7px",borderRadius:99,background:T.stk.bg,color:T.stk.c,border:`1px solid ${T.stk.bd}`,whiteSpace:"nowrap"}}>→ stock</span>
+              :<span style={{fontSize:9.5,fontWeight:700,padding:"2px 7px",borderRadius:99,background:T.svc.bg,color:T.svc.c,border:`1px solid ${T.svc.bd}`,whiteSpace:"nowrap"}}>→ {evt.beneficiaire||"redistribuée"}</span>
+            }
+          </div>
+
+          {/* Ligne 3 : tenue propre donnée */}
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <span style={{fontSize:9,fontWeight:800,color:T.t3,textTransform:"uppercase",letterSpacing:".10em",width:64,flexShrink:0}}>Propre</span>
+            <span style={{fontSize:12,fontWeight:700,color:T.t1,fontFamily:"'IBM Plex Mono',monospace"}}>{evt.tenue_propre||"—"}</span>
+            <span style={{fontSize:10,color:T.t3}}>{tProp?`${tProp.type==="veste"?"veste":"pantalon"} · ${tProp.taille}`:""}</span>
+          </div>
+        </>}
+        {evt.action==="Création"&&<div style={{display:"flex",alignItems:"center",gap:8}}>
+          <span style={{fontSize:9,fontWeight:800,color:T.t3,textTransform:"uppercase",letterSpacing:".10em",width:64,flexShrink:0}}>Statut</span>
+          <span style={{fontSize:12.5,fontWeight:700,color:T.t1}}>{evt.statut_initial==="en_service"?"En service":"Mise en stock"}</span>
+        </div>}
+        {evt.action==="Affectation"&&evt.portee_par&&<div style={{display:"flex",alignItems:"center",gap:8}}>
+          <span style={{fontSize:9,fontWeight:800,color:T.t3,textTransform:"uppercase",letterSpacing:".10em",width:64,flexShrink:0}}>Agent</span>
+          <span style={{fontSize:12.5,fontWeight:700,color:T.t1}}>{evt.portee_par}</span>
+          {evt.grade_porteur&&<span style={{fontSize:10,color:T.t3}}>· {evt.grade_porteur}</span>}
+        </div>}
+        {evt.action==="Archivage"&&<div style={{display:"flex",alignItems:"center",gap:8}}>
+          <span style={{fontSize:9,fontWeight:800,color:T.t3,textTransform:"uppercase",letterSpacing:".10em",width:64,flexShrink:0}}>Motif</span>
+          <span style={{fontSize:12.5,fontWeight:700,color:T.warn.c}}>{evt.motif||"Non précisé"}</span>
+        </div>}
+        {evt.action==="Correction lavages"&&<div style={{display:"flex",alignItems:"center",gap:8}}>
+          <span style={{fontSize:9,fontWeight:800,color:T.t3,textTransform:"uppercase",letterSpacing:".10em",width:64,flexShrink:0}}>Lavages</span>
+          <span style={{fontSize:12.5,fontWeight:700,color:T.t1}}>{evt.ancien} → {evt.nouveau}</span>
+        </div>}
+        {evt.enregistre_par&&<div style={{paddingTop:6,borderTop:`1px dashed ${T.borderSub}`,display:"flex",alignItems:"center",gap:5,marginTop:1}}>
+          <GradeIcon grade={evt.enregistre_par.grade} size={13}/>
+          <span style={{fontSize:9.5,color:T.t3}}>Par <strong style={{color:T.t2}}>{evt.enregistre_par.nom}</strong> · {evt.enregistre_par.grade}</span>
+        </div>}
+      </div>}
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   TENUE CARD
+────────────────────────────────────────────────────── */
+function TenueCard({t,onDetail,onChange,onAffect}){
+  const [flip,setFlip]=useState(false);
+  const EPI=t.type==="veste"?IMG_VESTE:IMG_PAN;
+  const arc=t.statut==="archive"||t.statut==="supprime";
+  const enStock=t.statut==="en_stock";
+  const enService=t.statut==="en_service";
+  const BASE={position:"absolute",inset:0,backfaceVisibility:"hidden",WebkitBackfaceVisibility:"hidden",borderRadius:11,padding:"9px 11px",display:"flex",flexDirection:"column",background:T.surface,border:`1px solid ${T.border}`,boxShadow:"0 1px 4px rgba(0,0,0,0.05)"};
+  return <div style={{perspective:1100,height:118,cursor:"pointer"}} onClick={()=>setFlip(f=>!f)}>
+    <div style={{position:"relative",width:"100%",height:"100%",transformStyle:"preserve-3d",transition:"transform .36s cubic-bezier(.4,0,.2,1)",transform:flip?"rotateY(180deg)":"none"}}>
+      <div style={BASE}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:5}}>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <div style={{width:32,height:32,background:T.bg,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",border:`1px solid ${T.border}`,flexShrink:0}}>
+              <img src={EPI} alt="" style={{width:24,height:24,objectFit:"contain"}}/>
+            </div>
+            <div>
+              <div style={{fontSize:13,fontWeight:700,color:T.t1,letterSpacing:"-0.1px",lineHeight:1,fontFamily:"'IBM Plex Mono',monospace"}}>{t.id}</div>
+              <div style={{fontSize:9,color:T.t3,marginTop:2}}>{t.type==="veste"?"Veste":"Pantalon"} · {t.taille}</div>
+            </div>
+          </div>
+          <Badge statut={t.statut}/>
+        </div>
+        <WashBar t={t} compact/>
+        <div style={{marginTop:4,display:"flex",alignItems:"center",justifyContent:"flex-end"}}>
+          <RefreshCw size={8} color={T.t4}/>
+        </div>
+      </div>
+      <div style={{...BASE,transform:"rotateY(180deg)",background:T.surfaceAlt}}>
+        {t.agent_actuel&&<div style={{display:"flex",alignItems:"center",gap:4,padding:"4px 7px",background:T.svc.bg,borderRadius:6,marginBottom:5,borderLeft:`2px solid ${T.svc.dot}`}}>
+          <User size={9} color={T.svc.c}/><span style={{fontSize:10,fontWeight:700,color:T.svc.c}}>{t.agent_actuel}</span>
+        </div>}
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:5,flex:1}}>
+          <div><div style={{fontSize:8,color:T.t3,fontWeight:700,textTransform:"uppercase",marginBottom:1}}>Mise en svc</div><div style={{fontSize:10,fontWeight:700,color:T.t1}}>{fmt(t.date_service)}</div></div>
+          <div><div style={{fontSize:8,color:T.t3,fontWeight:700,textTransform:"uppercase",marginBottom:1}}>Lavages</div><div style={{fontSize:10,fontWeight:700,color:T.t1}}>{lavD(t)}</div></div>
+        </div>
+        <div style={{display:"flex",gap:4,marginTop:5}} onClick={e=>e.stopPropagation()}>
+          <button onClick={()=>onDetail(t.id)} style={{flex:1,padding:"5px",background:T.bg,border:`1px solid ${T.border}`,borderRadius:6,fontSize:10,fontWeight:700,cursor:"pointer",color:T.t2,fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",gap:3}}><Eye size={9}/>Détail</button>
+          {t.statut==="en_service"&&<button onClick={()=>onChange(t.id)} style={{flex:2,padding:"5px 8px",background:T.navy,border:"none",borderRadius:6,fontSize:10,fontWeight:700,cursor:"pointer",color:"#fff",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",gap:3}}><ArrowLeftRight size={10}/>Change</button>}
+          {t.statut==="en_stock"&&<button onClick={()=>onAffect&&onAffect(t.id)} style={{flex:2,padding:"5px 8px",background:T.svc.c,border:"none",borderRadius:6,fontSize:10,fontWeight:700,cursor:"pointer",color:"#fff",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",gap:3}}><UserCheck size={10}/>Affecter</button>}
+        </div>
+      </div>
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   SMART SEARCH — cherche d'abord, propose créer si rien
+────────────────────────────────────────────────────── */
+function SmartSearch({tenues,onDetail,onCreatePrefill,onClose}){
+  const [q,setQ]=useState("");
+  const inputRef=useRef(null);
+  useEffect(()=>{inputRef.current?.focus();},[]);
+
+  const results=q.trim().length>=1
+    ? tenues.filter(t=>t.statut!=="supprime"&&(
+        t.id.toLowerCase().includes(q.toLowerCase())||
+        (t.agent_actuel||"").toLowerCase().includes(q.toLowerCase())
+      )).slice(0,8)
+    : [];
+
+  const exactMatch=tenues.find(t=>t.id.toLowerCase()===q.trim().toLowerCase());
+
+  return <div style={{position:"fixed",inset:0,background:"rgba(8,12,26,0.50)",backdropFilter:"blur(5px)",zIndex:800,display:"flex",alignItems:"flex-start",justifyContent:"center",paddingTop:60,paddingLeft:16,paddingRight:16}} onClick={onClose}>
+    <div onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:500,background:T.surface,borderRadius:14,border:`1px solid ${T.border}`,boxShadow:"0 16px 48px rgba(0,0,0,0.16)",overflow:"hidden",animation:"popIn .18s ease"}}>
+      {/* Search input */}
+      <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",borderBottom:`1px solid ${T.borderSub}`}}>
+        <Search size={15} color={T.t3}/>
+        <input ref={inputRef} value={q} onChange={e=>setQ(e.target.value.toUpperCase())} placeholder="N° de tenue, agent…"
+          style={{flex:1,border:"none",background:"transparent",fontSize:14,color:T.t1,outline:"none",fontFamily:"'IBM Plex Mono',monospace"}}/>
+        {q&&<button onClick={()=>setQ("")} style={{background:"none",border:"none",cursor:"pointer",color:T.t3,display:"flex"}}><X size={13}/></button>}
+        <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",color:T.t3,padding:"2px 6px",fontSize:11,fontFamily:"inherit"}}>Esc</button>
+      </div>
+
+      {/* Results */}
+      {q.trim().length>=1&&<div style={{maxHeight:320,overflowY:"auto"}}>
+        {results.length>0&&results.map(t=>{
+          const EI=t.type==="veste"?IMG_VESTE:IMG_PAN;
+          const n=lavN(t),col=n>=50?"#DC2626":n>=45?"#D97706":"#16A34A";
+          return <button key={t.id} onClick={()=>{onDetail(t.id);onClose();}}
+            style={{display:"flex",alignItems:"center",gap:11,width:"100%",padding:"10px 14px",background:"none",border:"none",borderBottom:`1px solid ${T.borderSub}`,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+            <div style={{width:32,height:32,background:T.bg,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,border:`1px solid ${T.border}`}}>
+              <img src={EI} alt="" style={{width:24,height:24,objectFit:"contain"}}/>
+            </div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:13,fontWeight:700,color:T.t1,fontFamily:"'IBM Plex Mono',monospace"}}>{t.id}</div>
+              <div style={{fontSize:10.5,color:T.t3,marginTop:1}}>{t.type==="veste"?"Veste":"Pantalon"} · {t.taille}{t.agent_actuel?` · ${t.agent_actuel}`:""}</div>
+            </div>
+            <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:3}}>
+              <Badge statut={t.statut}/>
+              <span style={{fontSize:10,fontWeight:700,color:col}}>{n}/50</span>
+            </div>
+          </button>;
+        })}
+
+        {/* Aucun résultat → proposer création */}
+        {results.length===0&&<div style={{padding:"16px 14px",display:"flex",flexDirection:"column",gap:10}}>
+          <div style={{fontSize:12.5,color:T.t3,textAlign:"center"}}>Aucune tenue trouvée pour <strong style={{color:T.t2,fontFamily:"'IBM Plex Mono',monospace"}}>{q}</strong></div>
+          <button onClick={()=>{onCreatePrefill(q);onClose();}}
+            style={{display:"flex",alignItems:"center",justifyContent:"center",gap:7,padding:"10px",background:T.navy,color:"#fff",border:"none",borderRadius:9,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:13}}>
+            <Plus size={14}/>Créer la tenue {q}
+          </button>
+        </div>}
+      </div>}
+
+      {q.trim().length===0&&<div style={{padding:"14px",display:"flex",flexDirection:"column",gap:5}}>
+        <div style={{fontSize:10,color:T.t3,fontWeight:700,textTransform:"uppercase",letterSpacing:".1em",marginBottom:3}}>Tenues récentes</div>
+        {tenues.filter(t=>t.statut==="en_service").slice(0,4).map(t=>{
+          const EI=t.type==="veste"?IMG_VESTE:IMG_PAN;
+          return <button key={t.id} onClick={()=>{onDetail(t.id);onClose();}}
+            style={{display:"flex",alignItems:"center",gap:9,padding:"7px 9px",background:T.surfaceAlt,border:`1px solid ${T.border}`,borderRadius:9,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+            <div style={{width:28,height:28,background:T.bg,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><img src={EI} alt="" style={{width:20,height:20,objectFit:"contain"}}/></div>
+            <span style={{fontSize:12.5,fontWeight:700,color:T.t1,flex:1,fontFamily:"'IBM Plex Mono',monospace"}}>{t.id}</span>
+            {t.agent_actuel&&<span style={{fontSize:10.5,color:T.t3}}>{t.agent_actuel}</span>}
+          </button>;
+        })}
+      </div>}
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   CHANGE SHEET
+────────────────────────────────────────────────────── */
+function ChangeSheet({onClose,onSave,tenues,presel,lastOp,setLastOp}){
+  const preselTenue=presel?tenues.find(t=>t.id===presel):null;
+  const [date,setDate]=useState(today());
+  const [aN,setAN]=useState(preselTenue?.agent_actuel||"");
+  const [ren,setRen]=useState(presel||"");
+  const [don,setDon]=useState("");
+  const [dev,setDev]=useState("stock");
+  const [ben,setBen]=useState("");
+  const [grade,setGrade]=useState(lastOp?.grade||"Sergent");
+  const [nom,setNom]=useState(lastOp?.nom||"");
+  const [sg,setSg]=useState(false);
+  const selectRen=id=>{setRen(id);setDon("");const t=tenues.find(x=>x.id===id);if(t?.agent_actuel)setAN(t.agent_actuel);};
+  const ok=ren&&don&&nom.trim()&&aN.trim();
+  const svcs=tenues.filter(t=>t.statut==="en_service");
+  const renTenue=tenues.find(t=>t.id===ren);
+  const stks=tenues.filter(t=>t.statut==="en_stock"&&(!renTenue||t.type===renTenue.type));
+  const save=()=>{setLastOp({grade,nom:nom.toUpperCase()});onSave({id_tenue_rendue:ren,id_tenue_donnee:don,agent_nom:aN.toUpperCase(),devenir:dev,beneficiaire_direct:ben.toUpperCase(),date,enregistre_par:{grade,nom:nom.toUpperCase()}});};
+  const ERow=({t,sel,onSel,dark})=>{
+    const EI=t.type==="veste"?IMG_VESTE:IMG_PAN;const active=sel===t.id;
+    return <button onClick={()=>onSel(t.id)} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 10px",background:active?(dark?T.navy:T.navyLight):T.surface,border:`1.5px solid ${active?(dark?"transparent":"rgba(15,30,56,0.20)"):T.border}`,borderRadius:8,cursor:"pointer",fontFamily:"inherit",marginBottom:3,width:"100%"}}>
+      <div style={{width:22,height:22,background:active&&dark?"rgba(255,255,255,0.12)":T.bg,borderRadius:5,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+        <img src={EI} alt="" style={{width:16,height:16,objectFit:"contain",filter:active&&dark?"brightness(10)":"none"}}/>
+      </div>
+      <span style={{fontSize:12,fontWeight:700,color:active&&dark?"#fff":T.t1,flex:1,textAlign:"left",fontFamily:"'IBM Plex Mono',monospace"}}>{t.id}</span>
+      <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end"}}>
+        {t.agent_actuel&&<span style={{fontSize:10,color:active&&dark?"rgba(255,255,255,.55)":T.t2,fontWeight:600}}>{t.agent_actuel}</span>}
+        <span style={{fontSize:9.5,color:active&&dark?"rgba(255,255,255,.35)":T.t3}}>{t.taille}</span>
+      </div>
+    </button>;
+  };
+  return <Sheet onClose={onClose} title="Enregistrer un change" sub="Lavage + réaffectation EPI">
+    <div style={{display:"flex",flexDirection:"column",gap:12}}>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
+        <Field label="Date"><TInput value={date} onChange={e=>setDate(e.target.value)} type="date" icon={Calendar}/></Field>
+        <Field label="Agent porteur"><AgentInput value={aN} onChange={setAN} placeholder="Nom…" tenues={tenues}/></Field>
+      </div>
+      <Field label="Tenue souillée">
+        <div style={{maxHeight:130,overflowY:"auto",marginBottom:4}}>{svcs.map(t=><ERow key={t.id} t={t} sel={ren} onSel={selectRen}/>)}</div>
+        <TInput value={ren} onChange={e=>setRen(e.target.value.toUpperCase())} placeholder="N° manuel" icon={Tag}/>
+      </Field>
+      <Field label="Tenue propre à distribuer">
+        <div style={{maxHeight:130,overflowY:"auto",marginBottom:4}}>{stks.filter(t=>t.id!==ren).map(t=><ERow key={t.id} t={t} sel={don} onSel={setDon} dark/>)}</div>
+        <TInput value={don} onChange={e=>setDon(e.target.value.toUpperCase())} placeholder="N° manuel" icon={Tag}/>
+      </Field>
+      <Field label="Devenir de la tenue rendue">
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+          {[{v:"stock",l:"Stock",Ic:Package},{v:"direct",l:"Redistribuée",Ic:ArrowLeftRight}].map(({v,l,Ic})=>(
+            <button key={v} onClick={()=>setDev(v)} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,padding:"9px",background:dev===v?T.svc.bg:T.surface,color:dev===v?T.svc.c:T.t2,border:`1.5px solid ${dev===v?T.svc.bd:T.border}`,borderRadius:9,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:12}}><Ic size={12}/>{l}</button>
+          ))}
+        </div>
+        {dev==="direct"&&<AgentInput value={ben} onChange={setBen} placeholder="NOM bénéficiaire…" tenues={tenues}/>}
+      </Field>
+      <OpRow grade={grade} setGrade={setGrade} nom={nom} setNom={setNom} onShowGrade={()=>setSg(true)}/>
+      <BtnNavy onClick={save} disabled={!ok} icon={CheckCircle2} full style={{width:"100%",justifyContent:"center",padding:"9px 16px",fontSize:13}}>Valider le change</BtnNavy>
+    </div>
+    {sg&&<GradePicker value={grade} onChange={setGrade} onClose={()=>setSg(false)}/>}
+  </Sheet>;
+}
+
+/* ──────────────────────────────────────────────────────
+   CREATE SHEET
+────────────────────────────────────────────────────── */
+function CreateSheet({onClose,onSave,tenues,lastOp,setLastOp,prefill}){
+  const [id,setId]=useState(prefill||""),[type,setType]=useState(""),[taille,setTaille]=useState(""),[ds,setDs]=useState(today()),[la,setLa]=useState("0"),[inc,setInc]=useState(false),[statut,setStatut]=useState("en_stock"),[ag,setAg]=useState(""),[grade,setGrade]=useState(lastOp?.grade||"Sergent"),[nom,setNom]=useState(lastOp?.nom||""),[sg,setSg]=useState(false);
+  const ok=id.trim()&&type&&nom.trim();
+  const pickType=v=>{setType(v);if(!id)setId(nextId(tenues,v==="veste"?"VES":"PAN"));};
+  const save=()=>{const obj={id:id.trim().toUpperCase(),type,taille:taille||"—",caserne:"Vienne",date_service:ds,lavages_anterieurs:inc?"inconnu":parseInt(la)||0,lavages_depuis_app:0,statut,agent_actuel:statut==="en_service"?ag.toUpperCase()||null:null,date_derniere_action:today()};setLastOp({grade,nom:nom.toUpperCase()});onSave(obj,{grade,nom:nom.toUpperCase()});};
+  return <Sheet onClose={onClose} title="Créer une tenue EPI" sub={prefill?`N° scanné : ${prefill}`:undefined}>
+    <div style={{display:"flex",flexDirection:"column",gap:12}}>
+      <Field label="Type d'EPI">
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+          {[{v:"veste",l:"Veste de feu",img:IMG_VESTE},{v:"pantalon",l:"Pantalon de feu",img:IMG_PAN}].map(({v,l,img})=>(
+            <button key={v} onClick={()=>pickType(v)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:7,padding:"13px 0",background:type===v?T.navy:T.surface,color:type===v?"#fff":T.t2,border:`1.5px solid ${type===v?"transparent":T.border}`,borderRadius:11,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:12}}>
+              <div style={{width:36,height:36,background:type===v?"rgba(255,255,255,0.12)":T.bg,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <img src={img} alt="" style={{width:28,height:28,objectFit:"contain",filter:type===v?"brightness(10)":"none"}}/>
+              </div>{l}
+            </button>
+          ))}
+        </div>
+      </Field>
+      <Field label="Numéro"><TInput value={id} onChange={e=>setId(e.target.value)} placeholder="VES-010" icon={Tag}/></Field>
+      <Field label="Taille">
+        {(()=>{
+          const known=[...new Set(tenues.map(t=>t.taille).filter(Boolean).filter(x=>x!=="—"))].sort((a,b)=>["S","M","L","XL","XXL","3XL"].indexOf(a)-["S","M","L","XL","XXL","3XL"].indexOf(b));
+          const showInput=taille&&!known.includes(taille);
+          return <>
+            <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:6}}>
+              {known.map(sz=><button key={sz} onClick={()=>setTaille(sz)} style={{padding:"4px 11px",borderRadius:99,border:`1.5px solid ${taille===sz?T.navy:T.border}`,background:taille===sz?T.navy:"transparent",color:taille===sz?"#fff":T.t2,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:12}}>{sz}</button>)}
+              <button onClick={()=>setTaille("")} style={{padding:"4px 11px",borderRadius:99,border:`1.5px dashed ${T.border}`,background:"transparent",color:T.t3,cursor:"pointer",fontFamily:"inherit",fontWeight:600,fontSize:12}}>+ Autre</button>
+            </div>
+            {(!known.includes(taille)||taille===""||showInput)&&<TInput value={taille} onChange={e=>setTaille(e.target.value.toUpperCase())} placeholder="Saisir une taille (ex: 42, 3XL…)"/>}
+          </>;
+        })()}
+      </Field>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+        <Field label="Mise en service"><TInput value={ds} onChange={e=>setDs(e.target.value)} type="date" icon={Calendar}/></Field>
+        <Field label="Lavages antérieurs">{!inc?<TInput value={la} onChange={e=>setLa(e.target.value)} type="number" placeholder="0"/>:<div style={{padding:"8px 10px",background:T.bg,borderRadius:8,fontSize:12,color:T.t3}}>Inconnus</div>}</Field>
+      </div>
+      <label style={{display:"flex",alignItems:"center",gap:7,cursor:"pointer",marginTop:-4}}><input type="checkbox" checked={inc} onChange={e=>setInc(e.target.checked)} style={{width:14,height:14,accentColor:T.navy}}/><span style={{fontSize:12,color:T.t2}}>Lavages antérieurs inconnus</span></label>
+      <Field label="Statut initial">
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+          {[{v:"en_stock",l:"En stock",Ic:Package},{v:"en_service",l:"En service",Ic:User}].map(({v,l,Ic})=>(
+            <button key={v} onClick={()=>setStatut(v)} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,padding:"9px",background:statut===v?T.navyLight:T.surface,color:statut===v?T.navy:T.t2,border:`1.5px solid ${statut===v?"rgba(15,30,56,0.22)":T.border}`,borderRadius:9,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:12}}><Ic size={12}/>{l}</button>
+          ))}
+        </div>
+        {statut==="en_service"&&<TInput value={ag} onChange={e=>setAg(e.target.value.toUpperCase())} placeholder="NOM agent" style={{marginTop:7}}/>}
+      </Field>
+      <OpRow grade={grade} setGrade={setGrade} nom={nom} setNom={setNom} onShowGrade={()=>setSg(true)}/>
+      <BtnNavy onClick={save} disabled={!ok} icon={Plus} full style={{width:"100%",justifyContent:"center",padding:"9px 16px",fontSize:13}}>Créer la tenue</BtnNavy>
+    </div>
+    {sg&&<GradePicker value={grade} onChange={setGrade} onClose={()=>setSg(false)}/>}
+  </Sheet>;
+}
+
+/* ──────────────────────────────────────────────────────
+   ARCHIVE + EXPORT
+────────────────────────────────────────────────────── */
+function ArchiveSheet({tenue,onClose,onSave}){
+  const [motif,setMotif]=useState("Tenue inopérationnelle"),[mc,setMc]=useState(""),[grade,setGrade]=useState("Adjudant"),[nom,setNom]=useState(""),[sg,setSg]=useState(false);
+  return <Sheet onClose={onClose} title="Archiver" sub={tenue?.id}>
+    <div style={{display:"flex",flexDirection:"column",gap:12}}>
+      <div style={{display:"flex",gap:8,padding:"9px 11px",background:T.warn.bg,borderRadius:9,border:`1px solid ${T.warn.bd}`}}>
+        <AlertTriangle size={13} color={T.warn.c} style={{flexShrink:0,marginTop:1}}/>
+        <p style={{fontSize:12,color:T.warn.c,margin:0,lineHeight:1.5}}>La tenue sera retirée des vues actives. L'historique est conservé.</p>
+      </div>
+      <Field label="Motif">
+        {["Tenue inopérationnelle","Autre"].map(m=>(
+          <button key={m} onClick={()=>setMotif(m)} style={{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"8px 11px",marginBottom:4,background:motif===m?T.navyLight:T.surface,border:`1.5px solid ${motif===m?"rgba(15,30,56,0.22)":T.border}`,borderRadius:8,cursor:"pointer",fontFamily:"inherit",fontSize:12.5,fontWeight:motif===m?700:500,color:T.t1}}>
+            <div style={{width:14,height:14,borderRadius:99,border:`2px solid ${motif===m?T.navy:"#CBD5E1"}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{motif===m&&<div style={{width:5,height:5,borderRadius:99,background:T.navy}}/>}</div>{m}
+          </button>
+        ))}
+        {motif==="Autre"&&<TInput value={mc} onChange={e=>setMc(e.target.value)} placeholder="Préciser…"/>}
+      </Field>
+      <OpRow grade={grade} setGrade={setGrade} nom={nom} setNom={setNom} onShowGrade={()=>setSg(true)}/>
+      <BtnWarn onClick={()=>onSave({motif:motif==="Autre"?mc:motif,grade,nom:nom.toUpperCase()})} icon={Archive} full style={{width:"100%",justifyContent:"center",padding:"9px 16px",fontSize:13}}>Confirmer l'archivage</BtnWarn>
+    </div>
+    {sg&&<GradePicker value={grade} onChange={setGrade} onClose={()=>setSg(false)}/>}
+  </Sheet>;
+}
+function ExportSheet({tenues,histo,onClose}){
+  const [sel,setSel]=useState({recap:true,actives:true,alertes:true,histo:true,archivees:false});
+  const [done,setDone]=useState(false);
+  const lav=t=>(t.lavages_anterieurs==="inconnu"?0:(parseInt(t.lavages_anterieurs)||0))+(parseInt(t.lavages_depuis_app)||0);
+  const fmtD=v=>{if(!v)return"—";const d=new Date(v);return isNaN(d)?v:d.toLocaleDateString("fr-FR");};
+  const SECS=[
+    {k:"recap",    l:"Récapitulatif global",        d:"KPIs en un coup d'œil"},
+    {k:"actives",  l:"Tenues actives + historique", d:"Tableau complet avec tous les events"},
+    {k:"alertes",  l:"Alertes ≥ 45 lavages",        d:"Tenues à surveiller"},
+    {k:"histo",    l:"Historique complet",           d:"Tous les événements"},
+    {k:"archivees",l:"Tenues archivées",             d:"Retirées du service"},
+  ];
+  const badge=s=>({en_service:'<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:#dcfce7;color:#166534">En service</span>',en_stock:'<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:#dbeafe;color:#1e40af">En stock</span>',archive:'<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:#fef3c7;color:#78350f">Archivée</span>'}[s]||s);
+  const bar=t=>{const p=Math.min(100,Math.round(lav(t)/50*100));const c=p>=90?"#C8191A":p>=70?"#F97316":"#16A34A";return `<div style="display:flex;align-items:center;gap:5px"><div style="width:70px;height:6px;background:#e5e7eb;border-radius:99px;overflow:hidden"><div style="width:${p}%;height:100%;background:${c}"></div></div><span style="font-size:10px;font-weight:700;color:${c}">${lav(t)}/50</span></div>`;};
+  const AL={"Création":"🆕","Change-Lavage":"🔄","Affectation":"👤","Archivage":"📦","Suppression":"🗑","Retour stock":"↩","Correction lavages":"✏️"};
+  const TH=cols=>`<tr>${cols.map(c=>`<th style="text-align:left;padding:8px;background:#0F1E38;color:#fff;font-size:11px;font-weight:700;text-transform:uppercase">${c}</th>`).join("")}</tr>`;
+
+  const doExport=()=>{
+    const date=new Date().toLocaleDateString("fr-FR");
+    const actives=tenues.filter(t=>t.statut!=="supprime"&&t.statut!=="archive");
+    const alertes=actives.filter(t=>lav(t)>=45);
+    const archivees=tenues.filter(t=>t.statut==="archive");
+    const enSvc=actives.filter(t=>t.statut==="en_service");
+    const enStk=actives.filter(t=>t.statut==="en_stock");
+
+    const evtLine=e=>{
+      let det="";
+      if(e.action==="Change-Lavage") det=`<br><small style="color:#666">Rendue:${e.tenue_souilee||"—"} → Propre:${e.tenue_propre||"—"}${e.devenir==="direct"?` → ${e.beneficiaire||""}`:" → stock"}</small>`;
+      if(e.action==="Affectation"||e.action==="Retour stock") det=`<br><small style="color:#666">Agent:${e.portee_par||"—"}</small>`;
+      if(e.action==="Correction lavages") det=`<br><small style="color:#666">${e.ancien}→${e.nouveau} lavages</small>`;
+      if(e.action==="Archivage") det=`<br><small style="color:#666">Motif:${e.motif||"—"}</small>`;
+      return `<div style="padding:2px 0;border-bottom:1px solid #f0f0f0"><b>${AL[e.action]||""} ${e.action}</b><span style="color:#9ca3af;font-size:10px;margin-left:6px">${fmtD(e.date)}</span>${e.nom_op?`<span style="color:#ccc;font-size:9px"> · ${e.nom_op}</span>`:""}${det}</div>`;
+    };
+
+    const secHtml={};
+    if(sel.recap) secHtml.recap=`<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px">${[["En service",enSvc.length,"#16A34A"],["En stock",enStk.length,"#3B82F6"],["Alertes ≥45",alertes.length,"#F97316"],["Archivées",archivees.length,"#6B7280"],["Total",actives.length,"#0F1E38"]].map(([l,n,c])=>`<div style="text-align:center;padding:12px;background:#f8fafc;border-radius:10px;border:1px solid #e2e6f0"><div style="font-size:28px;font-weight:800;color:${c}">${n}</div><div style="font-size:10px;color:#9ca3af">${l}</div></div>`).join("")}</div>`;
+    if(sel.actives) secHtml.actives=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead>${TH(["N° tenue","Type","Statut","Agent","Lavages","Mise en svc","Historique"])}</thead><tbody>${actives.map(t=>{const evts=[...(histo||[])].filter(h=>h.id_tenue===t.id).sort((a,b)=>b.date>a.date?1:-1);return`<tr style="border-bottom:1px solid #e5e7eb;vertical-align:top"><td style="padding:8px;font-weight:800;font-family:monospace">${t.id}</td><td style="padding:8px">${t.type==="veste"?"🥋 Veste":"👖 Pantalon"} <span style="color:#9ca3af">${t.taille}</span></td><td style="padding:8px">${badge(t.statut)}</td><td style="padding:8px;font-weight:600">${t.agent_actuel||"<span style='color:#d1d5db'>—</span>"}</td><td style="padding:8px">${bar(t)}</td><td style="padding:8px;font-size:11px;color:#6b7280">${fmtD(t.date_service)}</td><td style="padding:8px;font-size:11px;min-width:260px">${evts.length===0?"<i style='color:#d1d5db'>Aucun</i>":evts.map(evtLine).join("")}</td></tr>`;}).join("")}</tbody></table></div>`;
+    if(sel.alertes&&alertes.length>0) secHtml.alertes=`<table style="width:100%;border-collapse:collapse"><thead>${TH(["N° tenue","Type","Statut","Agent","Lavages"])}</thead><tbody>${alertes.map(t=>`<tr style="background:#fff7ed;border-bottom:1px solid #fed7aa"><td style="padding:8px;font-weight:800;font-family:monospace">${t.id}</td><td style="padding:8px">${t.type==="veste"?"🥋 Veste":"👖 Pantalon"} ${t.taille}</td><td style="padding:8px">${badge(t.statut)}</td><td style="padding:8px;font-weight:600">${t.agent_actuel||"—"}</td><td style="padding:8px">${bar(t)}</td></tr>`).join("")}</tbody></table>`;
+    if(sel.histo) secHtml.histo=`<table style="width:100%;border-collapse:collapse"><thead>${TH(["Date","Tenue","Action","Détail","Opérateur"])}</thead><tbody>${[...(histo||[])].sort((a,b)=>b.date>a.date?1:-1).map(e=>`<tr style="border-bottom:1px solid #e5e7eb"><td style="padding:7px 8px;color:#6b7280;font-size:11px;white-space:nowrap">${fmtD(e.date)}</td><td style="padding:7px 8px;font-weight:700;font-family:monospace">${e.id_tenue||"—"}</td><td style="padding:7px 8px;font-weight:600">${AL[e.action]||""} ${e.action}</td><td style="padding:7px 8px;font-size:11px">${e.portee_par||e.motif||""}</td><td style="padding:7px 8px;font-size:11px;color:#6b7280">${e.nom_op||""}</td></tr>`).join("")}</tbody></table>`;
+    if(sel.archivees&&archivees.length>0) secHtml.archivees=`<table style="width:100%;border-collapse:collapse"><thead>${TH(["N° tenue","Type","Lavages","Motif"])}</thead><tbody>${archivees.map(t=>`<tr style="border-bottom:1px solid #e5e7eb"><td style="padding:8px;font-weight:800;font-family:monospace">${t.id}</td><td style="padding:8px">${t.type==="veste"?"🥋 Veste":"👖 Pantalon"} ${t.taille}</td><td style="padding:8px">${lav(t)} lavages</td><td style="padding:8px;color:#9ca3af;font-size:11px">${t.motif_archive||"—"}</td></tr>`).join("")}</tbody></table>`;
+
+    const activeSecs=SECS.filter(s=>sel[s.k]&&secHtml[s.k]);
+    const navHtml=activeSecs.map((s,i)=>`<button onclick="show('${s.k}')" id="btn-${s.k}" class="nav-btn${i===0?" active":""}" style="padding:7px 14px;border-radius:8px;font-weight:700;font-size:12px;border:none;cursor:pointer;font-family:inherit;background:${i===0?"#0F1E38":"transparent"};color:${i===0?"#fff":"#3D4461"}">${s.l}</button>`).join("");
+    const secsHtml=activeSecs.map((s,i)=>`<div id="sec-${s.k}" class="sec" style="display:${i===0?"block":"none"}"><div style="background:#fff;border-radius:12px;padding:20px 24px;margin:16px 24px;box-shadow:0 1px 4px rgba(0,0,0,.07)"><h2 style="font-size:14px;font-weight:700;color:#0F1E38;margin-bottom:14px">${s.l}</h2>${secHtml[s.k]}</div></div>`).join("");
+
+    const html=`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>EPI TRACK — Rapport ${date}</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f8}nav{position:sticky;top:0;background:#fff;border-bottom:1px solid #e2e6f0;padding:10px 24px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;z-index:100}.nav-btn.active{background:#0F1E38!important;color:#fff!important}.nav-btn:hover{opacity:.8}tr:hover td{background:#f8f9ff}@media print{nav{display:none}.sec{display:block!important}}</style></head><body><nav><span style="font-weight:800;font-size:13px;color:#0F1E38;margin-right:8px">📋 EPI TRACK · ${date}</span>${navHtml}</nav>${secsHtml}<scr"+"ipt>function show(k){document.querySelectorAll('.sec').forEach(s=>s.style.display='none');document.getElementById('sec-'+k).style.display='block';document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+k).classList.add('active')}<\/scr"+"ipt></body></html>`;
+
+    const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+    a.download=`EPI_TRACK_rapport_${new Date().toISOString().split("T")[0]}.html`;
+    a.click();URL.revokeObjectURL(a.href);setDone(true);
+  };
+
+  const actives=tenues.filter(t=>t.statut!=="supprime"&&t.statut!=="archive");
+  const alertes=actives.filter(t=>lav(t)>=45);
+  return <Sheet onClose={onClose} title="Export Rapport" sub={new Date().toLocaleDateString("fr-FR")}>
+    {!done?<div>
+      <div style={{fontSize:11,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:".1em",marginBottom:8}}>Sections à inclure</div>
+      <div style={{display:"flex",flexDirection:"column",gap:5,marginBottom:14}}>
+        {SECS.map(s=><button key={s.k} onClick={()=>setSel(p=>({...p,[s.k]:!p[s.k]}))} style={{display:"flex",alignItems:"center",gap:10,padding:"9px 12px",background:sel[s.k]?T.navyLight:T.surface,border:`1.5px solid ${sel[s.k]?"rgba(15,30,56,0.20)":T.border}`,borderRadius:9,cursor:"pointer",fontFamily:"inherit",textAlign:"left",width:"100%"}}>
+          <div style={{width:18,height:18,borderRadius:5,background:sel[s.k]?T.navy:T.border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+            {sel[s.k]&&<Check size={11} color="#fff"/>}
+          </div>
+          <div style={{flex:1}}>
+            <div style={{fontSize:12,fontWeight:700,color:sel[s.k]?T.navy:T.t2}}>{s.l}</div>
+            <div style={{fontSize:10,color:T.t3}}>{s.d}</div>
+          </div>
+        </button>)}
+      </div>
+      <div style={{fontSize:10.5,color:T.t3,marginBottom:12,padding:"8px 10px",background:"rgba(0,0,0,0.03)",borderRadius:8}}>📄 Un fichier .html avec onglets de navigation · imprimable via Cmd+P</div>
+      <BtnNavy onClick={doExport} icon={FileSpreadsheet} disabled={!Object.values(sel).some(Boolean)} full style={{width:"100%",justifyContent:"center",padding:"9px 16px",fontSize:13}}>Générer le rapport</BtnNavy>
+    </div>:<div style={{textAlign:"center",padding:"20px 0"}}>
+      <div style={{width:48,height:48,borderRadius:13,background:T.svc.bg,margin:"0 auto 11px",display:"flex",alignItems:"center",justifyContent:"center"}}><CheckCircle2 size={22} color={T.svc.c}/></div>
+      <div style={{fontSize:13,fontWeight:700,color:T.svc.c,marginBottom:4}}>Rapport généré ✓</div>
+      <div style={{fontSize:11,color:T.t3,marginBottom:14}}>Ouvre le fichier .html · navigue entre les onglets · Cmd+P pour imprimer</div>
+      <BtnGhost onClick={()=>{setDone(false);onClose();}}>Fermer</BtnGhost>
+    </div>}
+  </Sheet>;
+}
+
+/* ──────────────────────────────────────────────────────
+   DETAIL VIEW
+────────────────────────────────────────────────────── */
+function DetailView({t,histo,tenues,onBack,onChange,onArchive,onDelete,onEditWash,onAffect,onStock}){
+  if(!t) return null;
+  const EPI=t.type==="veste"?IMG_VESTE:IMG_PAN;
+  const evts=histo.filter(h=>h.id_tenue===t.id).sort((a,b)=>a.date.localeCompare(b.date));
+  const arc=t.statut==="archive"||t.statut==="supprime";
+  const enStock=t.statut==="en_stock";
+  const enService=t.statut==="en_service";
+  return <div style={{flex:1,overflowY:"auto"}}>
+    <div style={{background:`linear-gradient(150deg,${T.navyMid} 0%,${T.navy} 100%)`,padding:"13px 16px 18px"}}>
+      <button onClick={onBack} style={{display:"inline-flex",alignItems:"center",gap:4,background:"rgba(255,255,255,0.07)",border:"1px solid rgba(255,255,255,0.10)",borderRadius:7,padding:"5px 11px",cursor:"pointer",color:"rgba(255,255,255,0.40)",fontSize:11,fontWeight:700,marginBottom:13,fontFamily:"inherit"}}>
+        <ArrowLeft size={11}/>Retour
+      </button>
+      <div style={{display:"flex",alignItems:"center",gap:12}}>
+        <div style={{width:52,height:52,background:"rgba(255,255,255,0.06)",borderRadius:13,display:"flex",alignItems:"center",justifyContent:"center",border:"1px solid rgba(255,255,255,0.08)",flexShrink:0}}>
+          <img src={EPI} alt="" style={{width:40,height:40,objectFit:"contain"}}/>
+        </div>
+        <div>
+          <div style={{fontSize:20,fontWeight:700,letterSpacing:"-0.3px",color:"#fff",lineHeight:1,fontFamily:"'IBM Plex Mono',monospace"}}>{t.id}</div>
+          <div style={{fontSize:10.5,color:"rgba(255,255,255,0.30)",marginTop:3}}>{t.type==="veste"?"Veste de feu":"Pantalon de feu"} · {t.taille} · {t.caserne}</div>
+        </div>
+      </div>
+      <div style={{marginTop:10,padding:"10px 12px",background:"rgba(255,255,255,0.06)",borderRadius:9,border:"1px solid rgba(255,255,255,0.07)"}}>
+        <WashBar t={t}/>
+      </div>
+      {t.agent_actuel&&<div style={{marginTop:7,display:"flex",alignItems:"center",gap:6,padding:"6px 10px",background:"rgba(255,255,255,0.05)",borderRadius:7}}>
+        <User size={11} color="rgba(255,255,255,0.40)"/><span style={{fontSize:11.5,fontWeight:700,color:"rgba(255,255,255,0.70)"}}>{t.agent_actuel}</span>
+      </div>}
+      <div style={{marginTop:7}}><Badge statut={t.statut}/></div>
+    </div>
+    <div style={{padding:"11px 14px 70px",display:"flex",flexDirection:"column",gap:9,maxWidth:760,margin:"0 auto",width:"100%"}}>
+      <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:11,padding:"12px 14px"}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(120px,1fr))",gap:9}}>
+          {[{l:"En service",v:fmt(t.date_service),Ic:Calendar},{l:"Caserne",v:t.caserne,Ic:Building2},{l:"Lavages app",v:t.lavages_depuis_app,Ic:Droplets},{l:"Total",v:lavD(t),Ic:History}].map(({l,v,Ic})=>(
+            <div key={l} style={{display:"flex",gap:7}}>
+              <div style={{width:22,height:22,background:T.navyLight,borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Ic size={11} color={T.navy}/></div>
+              <div><div style={{fontSize:8.5,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:".08em",marginBottom:1}}>{l}</div><div style={{fontSize:12,fontWeight:700,color:T.t1}}>{v}</div></div>
+            </div>
+          ))}
+        </div>
+        {t.motif_archive&&<div style={{marginTop:9,padding:"7px 10px",background:T.warn.bg,borderRadius:8,borderLeft:`2px solid rgba(114,50,9,.30)`}}>
+          <div style={{fontSize:8.5,fontWeight:700,color:T.warn.c,textTransform:"uppercase",marginBottom:1}}>Motif d'archivage</div>
+          <div style={{fontSize:12,color:T.warn.c}}>{t.motif_archive}</div>
+        </div>}
+      </div>
+
+      {/* Actions selon statut */}
+      {!arc&&<div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+        {enStock&&<BtnNavy onClick={()=>onAffect&&onAffect(t.id)} icon={UserCheck}>Affecter à un agent</BtnNavy>}
+        {enService&&<BtnNavy onClick={()=>onChange(t.id)} icon={ArrowLeftRight}>Change / lavage</BtnNavy>}
+        {enService&&<button onClick={()=>onStock&&onStock(t.id)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 14px",background:"rgba(59,130,246,0.10)",border:"1px solid rgba(59,130,246,0.25)",borderRadius:8,cursor:"pointer",color:"#1D4ED8",fontSize:12,fontWeight:700,fontFamily:"inherit"}}><Inbox size={12}/>Remettre en stock</button>}
+        <BtnWarn onClick={onArchive} icon={Archive}>Archiver</BtnWarn>
+        <BtnRed onClick={onDelete} icon={Trash2}>Supprimer</BtnRed>
+        <BtnGhost onClick={onEditWash} icon={Edit3}>Corriger lavages</BtnGhost>
+      </div>}
+      {arc&&<BtnGhost onClick={onEditWash} icon={Edit3}>Corriger le compteur de lavages</BtnGhost>}
+
+      {/* Timeline */}
+      <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:11,padding:"12px 14px"}}>
+        <div style={{fontSize:12,fontWeight:700,color:T.t1,marginBottom:12,display:"flex",alignItems:"center",gap:6}}>
+          <History size={13} color={T.navy}/><span style={{flex:1}}>Historique</span>
+          <span style={{fontSize:10,color:T.t3}}>{evts.length} événement{evts.length!==1?"s":""}</span>
+        </div>
+        {evts.length===0&&<div style={{textAlign:"center",padding:"14px 0",color:T.t3,fontSize:12}}>Aucun événement</div>}
+        {evts.map((e,i)=><TimelineEvent key={e.id} evt={e} tenues={tenues} isLast={i===evts.length-1}/>)}
+      </div>
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   COMPACT ROW — vue liste
+────────────────────────────────────────────────────── */
+function CompactRow({t,onDetail,onChange,onAffect}){
+  const EPI=t.type==="veste"?IMG_VESTE:IMG_PAN;
+  const n=lavN(t),pct=Math.min(n/50*100,100);
+  const col=n>=50?"#DC2626":n>=45?"#D97706":n>=35?"#F59E0B":"#16A34A";
+  const arc=t.statut==="archive"||t.statut==="supprime";
+  const enStock=t.statut==="en_stock";
+  const enService=t.statut==="en_service";
+  return <div style={{display:"flex",alignItems:"center",gap:10,padding:"8px 12px",background:T.surface,border:`1px solid ${T.border}`,borderRadius:9,marginBottom:4,cursor:"pointer"}} onClick={()=>onDetail(t.id)}>
+    <div style={{width:28,height:28,background:T.bg,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,border:`1px solid ${T.border}`}}>
+      <img src={EPI} alt="" style={{width:20,height:20,objectFit:"contain"}}/>
+    </div>
+    <span style={{fontSize:12.5,fontWeight:800,color:T.t1,minWidth:72,fontFamily:"'IBM Plex Mono',monospace"}}>{t.id}</span>
+    <span style={{fontSize:10.5,color:T.t3,minWidth:20}}>{t.taille}</span>
+    <div style={{flex:1,display:"flex",flexDirection:"column",gap:2,minWidth:0}}>
+      {t.agent_actuel&&<span style={{fontSize:10.5,color:T.t2,fontWeight:600,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.agent_actuel}</span>}
+      <div style={{display:"flex",alignItems:"center",gap:5}}>
+        <div style={{flex:1,height:3,background:"rgba(0,0,0,0.06)",borderRadius:99,overflow:"hidden"}}>
+          <div style={{width:`${pct}%`,height:"100%",background:col,borderRadius:99}}/>
+        </div>
+        <span style={{fontSize:9.5,fontWeight:800,color:col,flexShrink:0}}>{n}/50</span>
+      </div>
+    </div>
+    <Badge statut={t.statut}/>
+    {!arc&&<div style={{display:"flex",gap:4,flexShrink:0}} onClick={e=>e.stopPropagation()}>
+      {t.statut==="en_service"&&<button onClick={()=>onChange(t.id)} style={{padding:"4px 8px",background:T.navy,border:"none",borderRadius:6,fontSize:10.5,fontWeight:700,cursor:"pointer",color:"#fff",fontFamily:"inherit",display:"flex",alignItems:"center",gap:3}}><ArrowLeftRight size={9}/>Change</button>}
+      {t.statut==="en_stock"&&<button onClick={()=>onAffect(t.id)} style={{padding:"4px 8px",background:T.svc.c,border:"none",borderRadius:6,fontSize:10.5,fontWeight:700,cursor:"pointer",color:"#fff",fontFamily:"inherit",display:"flex",alignItems:"center",gap:3}}><UserCheck size={9}/>Affecter</button>}
+    </div>}
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   ALL VIEW
+────────────────────────────────────────────────────── */
+function AllView({tenues,onBack,onDetail,setOverlay,setPresel,initStatut,setAffectId}){
+  const [fT,setFT]=useState("all"),[fS,setFS]=useState(initStatut||"all"),[sort,setSort]=useState("id"),[q,setQ]=useState(""),[listMode,setListMode]=useState(initStatut==="en_stock");
+  const filtered=tenues.filter(t=>t.statut!=="supprime").filter(t=>fT==="all"||t.type===fT).filter(t=>fS==="all"||t.statut===fS).filter(t=>!q||t.id.toLowerCase().includes(q.toLowerCase())||(t.agent_actuel||"").toLowerCase().includes(q.toLowerCase())).sort((a,b)=>sort==="id"?a.id.localeCompare(b.id):sort==="lavages"?lavN(b)-lavN(a):a.date_service.localeCompare(b.date_service));
+  const Pill=({l,active,onClick})=><button onClick={onClick} style={{padding:"4px 11px",borderRadius:99,border:`1.5px solid ${active?T.navy:T.border}`,background:active?T.navy:"transparent",color:active?"#fff":T.t2,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:11,whiteSpace:"nowrap",flexShrink:0}}>{l}</button>;
+  return <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+    <div style={{padding:"10px 14px 0",flexShrink:0}}>
+      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+        <button onClick={onBack} style={{background:T.navyLight,border:"none",borderRadius:99,width:30,height:30,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:T.t2,flexShrink:0}}><ArrowLeft size={14}/></button>
+        <div style={{flex:1}}>
+          <div style={{fontSize:13,fontWeight:700,color:T.t1}}>Toutes les tenues <span style={{fontSize:10,color:T.t3,fontWeight:500}}>{filtered.length} résultat{filtered.length!==1?"s":""}</span></div>
+        </div>
+        {/* Vue toggle */}
+        <div style={{display:"flex",background:T.bg,borderRadius:8,border:`1px solid ${T.border}`,overflow:"hidden",flexShrink:0}}>
+          <button onClick={()=>setListMode(false)} style={{padding:"5px 9px",background:!listMode?T.navy:"transparent",color:!listMode?"#fff":T.t3,border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:3,fontSize:10,fontWeight:700,fontFamily:"inherit"}}><Layers size={11}/>Cartes</button>
+          <button onClick={()=>setListMode(true)} style={{padding:"5px 9px",background:listMode?T.navy:"transparent",color:listMode?"#fff":T.t3,border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:3,fontSize:10,fontWeight:700,fontFamily:"inherit"}}><BarChart3 size={11}/>Liste</button>
+        </div>
+        {/* Sort */}
+        <div style={{display:"flex",gap:3,flexShrink:0}}>
+          {[["id","N°"],["lavages","Lavages"],["date","Date"]].map(([v,l])=><button key={v} onClick={()=>setSort(v)} style={{padding:"4px 7px",borderRadius:99,border:`1.5px solid ${sort===v?"rgba(15,30,56,0.22)":T.border}`,background:sort===v?T.navyLight:"transparent",color:sort===v?T.navy:T.t3,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:9.5}}>{l}</button>)}
+        </div>
+      </div>
+      <TInput value={q} onChange={e=>setQ(e.target.value)} placeholder="Filtrer par N°, agent…" icon={Search} style={{marginBottom:6}}/>
+      <div style={{display:"flex",gap:4,overflowX:"auto",paddingBottom:5}}>
+        {[["all","Toutes"],["veste","Vestes"],["pantalon","Pantalons"]].map(([v,l])=><Pill key={v} l={l} active={fT===v} onClick={()=>setFT(v)}/>)}
+        <div style={{width:1,height:20,background:T.border,flexShrink:0,alignSelf:"center"}}/>
+        {[["all","Tous statuts"],["en_service","Service"],["en_stock","Stock"],["archive","Archivées"]].map(([v,l])=><Pill key={v} l={l} active={fS===v} onClick={()=>setFS(v)}/>)}
+      </div>
+    </div>
+    <div style={{flex:1,overflowY:"auto",padding:"4px 14px 70px"}}>
+      {filtered.length===0&&<div style={{textAlign:"center",padding:"36px 0",color:T.t3,fontSize:12}}>Aucune tenue trouvée</div>}
+      {listMode
+        ?<div>{filtered.map(t=><CompactRow key={t.id} t={t} onDetail={onDetail} onChange={id=>{setPresel(id);setOverlay("change");}} onAffect={id=>setAffectId(id)}/>)}</div>
+        :<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))",gap:8}}>
+          {filtered.map(t=><TenueCard key={t.id} t={t} onDetail={onDetail} onChange={id=>{setPresel(id);setOverlay("change");}} onAffect={id=>setAffectId(id)}/>)}
+        </div>}
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   HOME VIEW
+────────────────────────────────────────────────────── */
+function HomeView({tenues,onDetail,setOverlay,setView,setPresel,setInitStatut,scanBarRef}){
+  const active=tenues.filter(t=>t.statut!=="supprime");
+  const recent=active.filter(t=>t.statut!=="archive").slice(0,6);
+  return <div style={{flex:1,overflowY:"auto",padding:"12px 14px 70px"}}>
+    {/* Action buttons */}
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
+      <button onClick={()=>{setInitStatut("all");setView("all");}} style={{padding:"13px 14px",background:T.navy,color:"#fff",border:"none",borderRadius:11,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:13,textAlign:"left",display:"flex",flexDirection:"column",gap:8,boxShadow:`0 2px 10px ${T.navyGlow}`}}>
+        <div style={{width:30,height:30,background:"rgba(255,255,255,0.12)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center"}}><Layers size={14}/></div>
+        <div>Stock EPI<div style={{fontSize:10,opacity:.5,fontWeight:500,marginTop:1}}>{active.filter(t=>t.statut!=="archive").length} tenues actives</div></div>
+      </button>
+      <button onClick={()=>{setPresel(null);setOverlay("change");}} style={{padding:"13px 14px",background:T.red,color:"#fff",border:"none",borderRadius:11,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:13,textAlign:"left",display:"flex",flexDirection:"column",gap:8,boxShadow:`0 2px 10px ${T.redBd}`}}>
+        <div style={{width:30,height:30,background:"rgba(255,255,255,0.12)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center"}}><ArrowLeftRight size={14}/></div>
+        <div>Change<div style={{fontSize:10,opacity:.5,fontWeight:500,marginTop:1}}>Lavage + réaffectation</div></div>
+      </button>
+    </div>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
+      <button onClick={()=>setOverlay("create")} style={{padding:"9px 12px",background:T.surface,color:T.t2,border:`1px solid ${T.border}`,borderRadius:10,cursor:"pointer",fontFamily:"inherit",fontWeight:600,fontSize:12,display:"flex",alignItems:"center",gap:6}}><Plus size={13} color={T.t2}/>Créer une tenue</button>
+      <button onClick={()=>setOverlay("export")} style={{padding:"9px 12px",background:"transparent",color:T.t3,border:`1px dashed ${T.border}`,borderRadius:10,cursor:"pointer",fontFamily:"inherit",fontWeight:600,fontSize:12,display:"flex",alignItems:"center",gap:6}}><FileSpreadsheet size={13}/>Export XLSX</button>
+    </div>
+    <div style={{fontSize:9,fontWeight:800,color:T.t3,textTransform:"uppercase",letterSpacing:".13em",marginBottom:8}}>Tenues récentes</div>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))",gap:8}}>
+      {recent.map(t=><TenueCard key={t.id} t={t} onDetail={onDetail} onChange={id=>{setPresel(id);setOverlay("change");}} onAffect={id=>setAffectId&&setAffectId(id)}/>)}
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   AFFECT SHEET — affecter une tenue en stock directement
+────────────────────────────────────────────────────── */
+function AffectSheet({tenue,onClose,onSave,tenues,lastOp,setLastOp}){
+  const [agent,setAgent]=useState("");
+  const [date,setDate]=useState(today());
+  const [grade,setGrade]=useState(lastOp?.grade||"Sergent");
+  const [nom,setNom]=useState(lastOp?.nom||"");
+  const [sg,setSg]=useState(false);
+  const ok=agent.trim()&&nom.trim();
+  const EPI=tenue?.type==="veste"?IMG_VESTE:IMG_PAN;
+  return <Sheet onClose={onClose} title="Affecter la tenue" sub={tenue?.id}>
+    <div style={{display:"flex",flexDirection:"column",gap:12}}>
+      {tenue&&<div style={{display:"flex",alignItems:"center",gap:11,padding:"10px 12px",background:T.navyLight,borderRadius:10,border:`1px solid rgba(15,30,56,0.12)`}}>
+        <div style={{width:36,height:36,background:T.surface,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,border:`1px solid ${T.border}`}}>
+          <img src={EPI} alt="" style={{width:28,height:28,objectFit:"contain"}}/>
+        </div>
+        <div>
+          <div style={{fontSize:14,fontWeight:700,color:T.navy,fontFamily:"'IBM Plex Mono',monospace"}}>{tenue.id}</div>
+          <div style={{fontSize:10.5,color:T.t3}}>{tenue.type==="veste"?"Veste":"Pantalon"} · {tenue.taille}</div>
+        </div>
+      </div>}
+      <Field label="Affecter à l'agent">
+        <AgentInput value={agent} onChange={setAgent} placeholder="NOM PRÉNOM de l'agent" tenues={tenues}/>
+      </Field>
+      <Field label="Date d'affectation">
+        <TInput value={date} onChange={e=>setDate(e.target.value)} type="date" icon={Calendar}/>
+      </Field>
+      <OpRow grade={grade} setGrade={setGrade} nom={nom} setNom={setNom} onShowGrade={()=>setSg(true)}/>
+      <BtnNavy onClick={()=>{setLastOp({grade,nom:nom.toUpperCase()});onSave({agent:agent.toUpperCase(),date,enregistre_par:{grade,nom:nom.toUpperCase()}});}} disabled={!ok} full style={{width:"100%",justifyContent:"center",padding:"9px 16px",fontSize:13}} icon={UserCheck}>Confirmer l'affectation</BtnNavy>
+    </div>
+    {sg&&<GradePicker value={grade} onChange={setGrade} onClose={()=>setSg(false)}/>}
+  </Sheet>;
+}
+
+/* ──────────────────────────────────────────────────────
+   PERSISTENT SCAN BAR — toujours actif
+────────────────────────────────────────────────────── */
+function ScanBar({tenues,onDetail,onCreatePrefill,blocked}){
+  const [q,setQ]=useState("");
+  const [results,setResults]=useState([]);
+  const [active,setActive]=useState(false);
+  const inputRef=useRef(null);
+  const scanTimer=useRef(null);
+  const scanBuf=useRef("");
+
+  /* Focus input whenever no overlay is open */
+  useEffect(()=>{
+    if(!blocked){
+      const t=setTimeout(()=>inputRef.current?.focus(),80);
+      return()=>clearTimeout(t);
+    }
+  },[blocked]);
+
+  /* Global keydown: redirect ANY printable key to the input if not already focused */
+  useEffect(()=>{
+    if(blocked) return;
+    const onKey=e=>{
+      if(e.target===inputRef.current) return;
+      if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA"||e.target.tagName==="SELECT") return;
+      if(e.metaKey||e.ctrlKey||e.altKey) return;
+      if(e.key==="Enter"){
+        inputRef.current?.focus();
+        return;
+      }
+      if(e.key.length===1){
+        e.preventDefault();
+        inputRef.current?.focus();
+        /* Inject the character directly into state so it is not lost */
+        setQ(prev=>{
+          const next=(prev+e.key).toUpperCase();
+          /* Trigger results update */
+          const r=tenues.filter(t=>t.statut!=="supprime"&&(
+            t.id.toUpperCase().startsWith(next)||
+            t.id.toUpperCase().includes(next)||
+            (t.agent_actuel||"").toUpperCase().includes(next)
+          )).sort((a,b)=>{
+            const as=a.id.toUpperCase().startsWith(next)?0:1;
+            const bs=b.id.toUpperCase().startsWith(next)?0:1;
+            return as-bs||a.id.localeCompare(b.id);
+          }).slice(0,8);
+          setResults(r);
+          const exact=tenues.find(t=>t.id.toUpperCase()===next&&t.statut!=="supprime");
+          if(exact&&next.length>=4){
+            clearTimeout(scanTimer.current);
+            scanTimer.current=setTimeout(()=>{onDetail(exact.id);setQ("");setResults([]);},280);
+          }
+          return next;
+        });
+      }
+    };
+    document.addEventListener("keydown",onKey,true);
+    return()=>document.removeEventListener("keydown",onKey,true);
+  },[blocked,tenues,onDetail,onCreatePrefill]);
+
+  const handleChange=val=>{
+    setQ(val);
+    if(val.trim().length>=1){
+      const r=tenues.filter(t=>t.statut!=="supprime"&&(
+        t.id.toLowerCase().startsWith(val.toLowerCase())||
+        t.id.toLowerCase().includes(val.toLowerCase())||
+        (t.agent_actuel||"").toLowerCase().includes(val.toLowerCase())
+      )).sort((a,b)=>{
+        const av=a.id.toLowerCase().startsWith(val.toLowerCase())?0:1;
+        const bv=b.id.toLowerCase().startsWith(val.toLowerCase())?0:1;
+        return av-bv||a.id.localeCompare(b.id);
+      }).slice(0,8);
+      setResults(r);
+      /* Auto-navigate if exact match */
+      const exact=tenues.find(t=>t.id.toLowerCase()===val.trim().toLowerCase()&&t.statut!=="supprime");
+      if(exact&&val.length>=4){
+        clearTimeout(scanTimer.current);
+        scanTimer.current=setTimeout(()=>{onDetail(exact.id);setQ("");setResults([]);},340);
+      }
+    } else {setResults([]);clearTimeout(scanTimer.current);}
+  };
+
+  const go=()=>{
+    clearTimeout(scanTimer.current);
+    const v=q.trim();
+    if(!v) return;
+    const exact=tenues.find(t=>t.id.toUpperCase()===v.toUpperCase()&&t.statut!=="supprime");
+    if(exact){onDetail(exact.id);setQ("");setResults([]);return;}
+    if(results.length===1){onDetail(results[0].id);setQ("");setResults([]);return;}
+    if(results.length===0){onCreatePrefill(v);setQ("");setResults([]);}
+  };
+
+  const n=lavN;
+  return <div style={{background:T.surface,borderBottom:`1px solid ${T.border}`,position:"sticky",top:50,zIndex:90,flexShrink:0}}>
+    <div style={{maxWidth:1360,margin:"0 auto",padding:"8px 14px",position:"relative"}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,background:active?T.surface:T.bg,borderRadius:11,padding:"0 14px",border:`1.5px solid ${active||q?T.navy+"55":T.border}`,transition:"all .15s",boxShadow:active||q?`0 0 0 3px rgba(15,30,56,0.07)`:"none"}}>
+        <Search size={14} color={q?T.navy:T.t3} style={{flexShrink:0}}/>
+        <input ref={inputRef} value={q}
+          onChange={e=>handleChange(e.target.value.toUpperCase())}
+          onFocus={()=>setActive(true)}
+          onBlur={()=>setActive(false)}
+          onKeyDown={e=>{
+            if(e.key==="Enter"){e.preventDefault();go();}
+            if(e.key==="Escape"){setQ("");setResults([]);inputRef.current?.blur();}
+            if(e.key==="ArrowDown"&&results.length>0){e.preventDefault();}
+          }}
+          placeholder="Scanner ou saisir un N° de tenue…"
+          style={{flex:1,border:"none",background:"transparent",fontSize:13.5,color:T.t1,outline:"none",padding:"11px 0",fontFamily:"'IBM Plex Mono',monospace",fontWeight:600,letterSpacing:".03em"}}/>
+        {q
+          ?<button onClick={()=>{setQ("");setResults([]);clearTimeout(scanTimer.current);inputRef.current?.focus();}} style={{background:"none",border:"none",cursor:"pointer",color:T.t3,display:"flex",padding:3,borderRadius:5}}><X size={12}/></button>
+          :<span style={{fontSize:9,color:T.t4,whiteSpace:"nowrap",letterSpacing:".04em"}}>SCAN · ENTRÉE</span>
+        }
+      </div>
+
+      {/* Dropdown suggestions */}
+      {(results.length>0||(q.length>=2&&results.length===0))&&<div style={{position:"absolute",top:"calc(100% + 1px)",left:14,right:14,background:T.surface,border:`1.5px solid ${T.navy+"33"}`,borderRadius:11,boxShadow:"0 12px 32px rgba(0,0,0,0.13)",zIndex:200,overflow:"hidden",animation:"popIn .13s ease"}}>
+        {results.map((t,i)=>{
+          const EI=t.type==="veste"?IMG_VESTE:IMG_PAN;
+          const lv=lavN(t),col=lv>=50?"#DC2626":lv>=45?"#D97706":"#16A34A";
+          return <button key={t.id} onMouseDown={e=>{e.preventDefault();onDetail(t.id);setQ("");setResults([]);clearTimeout(scanTimer.current);}}
+            style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"9px 14px",background:"none",border:"none",borderBottom:i<results.length-1?`1px solid ${T.borderSub}`:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left",transition:"background .1s"}}>
+            <div style={{width:26,height:26,background:T.bg,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,border:`1px solid ${T.border}`}}>
+              <img src={EI} alt="" style={{width:19,height:19,objectFit:"contain"}}/>
+            </div>
+            <span style={{fontSize:13.5,fontWeight:800,color:T.t1,flex:1,fontFamily:"'IBM Plex Mono',monospace"}}>{t.id}</span>
+            <span style={{fontSize:11,color:T.t3,maxWidth:140,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.taille}{t.agent_actuel?` · ${t.agent_actuel}`:""}</span>
+            <Badge statut={t.statut}/>
+            <span style={{fontSize:10.5,fontWeight:800,color:col,minWidth:32,textAlign:"right"}}>{lv}/50</span>
+          </button>;
+        })}
+        {results.length===0&&q.length>=2&&<div style={{padding:"12px 14px",display:"flex",alignItems:"center",gap:10}}>
+          <span style={{fontSize:12,color:T.t3,flex:1}}>Aucune tenue <strong style={{fontFamily:"'IBM Plex Mono',monospace",color:T.t2}}>{q}</strong></span>
+          <button onMouseDown={e=>{e.preventDefault();onCreatePrefill(q);setQ("");setResults([]);}}
+            style={{display:"flex",alignItems:"center",gap:5,padding:"6px 12px",background:T.navy,color:"#fff",border:"none",borderRadius:8,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:12}}>
+            <Plus size={12}/>Créer {q}
+          </button>
+        </div>}
+      </div>}
+    </div>
+  </div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   TOAST
+────────────────────────────────────────────────────── */
+function Toast({msg,type}){
+  const bg=type==="error"?T.red:type==="warn"?T.warn.c:T.svc.c;
+  return <div style={{position:"fixed",bottom:22,left:"50%",transform:"translateX(-50%)",background:bg,color:"#fff",padding:"8px 16px",borderRadius:10,fontSize:12,fontWeight:700,zIndex:2000,boxShadow:"0 4px 16px rgba(0,0,0,0.18)",animation:"fadeUp .2s ease",pointerEvents:"none",whiteSpace:"nowrap"}}>{msg}</div>;
+}
+
+/* ──────────────────────────────────────────────────────
+   APP ROOT
+────────────────────────────────────────────────────── */
+function App(){
+  const [view,setView]=useState("home");
+  const [tenues,setTenues]=useState(DEMO?INIT_TENUES:[]);
+  const [histo,setHisto]=useState(DEMO?INIT_HISTO:[]);
+  const [loading,setLoading]=useState(!DEMO);
+  const [selId,setSelId]=useState(null);
+  const [overlay,setOverlay]=useState(null);
+  const [master,setMaster]=useState(null);
+  const [lastOp,setLastOp]=useState({grade:"Sergent",nom:""});
+  const [toast,setToast]=useState(null);
+  const [presel,setPresel]=useState(null);
+  const [archPend,setArchPend]=useState(null);
+  const [scanBuf,setScanBuf]=useState("");
+  const [initStatut,setInitStatut]=useState("all");
+  const [washEdit,setWashEdit]=useState(false);
+  const [affectId,setAffectId]=useState(null);
+  const sel=tenues.find(t=>t.id===selId);
+
+  useEffect(()=>{
+    if(DEMO)return;
+    apiCall("all").then(d=>{
+      if(!d)return;
+      if(d.tenues&&d.tenues.length>0)setTenues(d.tenues.map(normTenue));
+      if(d.historique&&d.historique.length>0)setHisto(d.historique.map(h=>({...h,date:toISO(h.date)||h.date})));
+    }).finally(()=>setLoading(false));
+  },[]);
+
+  const showToast=(msg,type="success")=>{setToast({msg,type});setTimeout(()=>setToast(null),2800);};
+  const openDetail=id=>{setSelId(id);setView("detail");};
+  const openChange=id=>{setPresel(id||null);setOverlay("change");};
+  const saveAffect=({agent,date,enregistre_par})=>{
+    const id=affectId;
+    setTenues(p=>p.map(t=>t.id===id?{...t,statut:"en_service",agent_actuel:agent,date_derniere_action:date}:t));
+    setHisto(p=>[...p,{id:`EVT-${Date.now()}`,date,id_tenue:id,action:"Affectation",portee_par:agent,grade_porteur:enregistre_par.grade,enregistre_par}]);
+    setAffectId(null);showToast(`${id} affectée à ${agent}`);
+    apiCall("affectTenue",{id,agent_actuel:agent,date,grade_op:enregistre_par.grade,nom_op:enregistre_par.nom});
+  };
+
+  const saveTenue=(t,op)=>{
+    if(tenues.find(x=>x.id===t.id)){showToast("N° déjà existant","error");return;}
+    setTenues(p=>[...p,t]);
+    setHisto(p=>[...p,{id:`EVT-${Date.now()}`,date:today(),id_tenue:t.id,action:"Création",statut_initial:t.statut,enregistre_par:{grade:op.grade,nom:op.nom}}]);
+    setOverlay(null);setScanBuf("");showToast(`Tenue ${t.id} créée`);
+    apiCall("createTenue",{tenue:t,grade_op:op.grade,nom_op:op.nom});
+  };
+  const saveChange=({id_tenue_rendue,id_tenue_donnee,agent_nom,devenir,beneficiaire_direct,date,enregistre_par})=>{
+    setTenues(p=>p.map(t=>{
+      if(t.id===id_tenue_rendue) return{...t,lavages_depuis_app:t.lavages_depuis_app+1,statut:devenir==="direct"?"en_service":"en_stock",agent_actuel:devenir==="direct"?(beneficiaire_direct||agent_nom):null,date_derniere_action:date};
+      if(t.id===id_tenue_donnee) return{...t,statut:"en_service",agent_actuel:agent_nom,date_derniere_action:date};
+      return t;
+    }));
+    setHisto(p=>[...p,{id:`EVT-${Date.now()}`,date,id_tenue:id_tenue_rendue,action:"Change-Lavage",portee_par:agent_nom,grade_porteur:"—",tenue_souilee:id_tenue_rendue,tenue_propre:id_tenue_donnee,devenir,beneficiaire:devenir==="direct"?beneficiaire_direct||agent_nom:null,grade_ben:null,enregistre_par}]);
+    setOverlay(null);showToast("Change enregistré");
+    apiCall("saveChange",{id_tenue_rendue,id_tenue_donnee,agent_nom,devenir,beneficiaire_direct:beneficiaire_direct||"",date,grade_op:enregistre_par.grade,nom_op:enregistre_par.nom});
+  };
+  const archiveTrigger=()=>{setArchPend(sel);setMaster({action:"archiver cette tenue",cb:()=>{setMaster(null);setOverlay("archive");}});};
+  const deleteTrigger=()=>{setMaster({action:"supprimer définitivement",cb:()=>{
+    setTenues(p=>p.map(t=>t.id===selId?{...t,statut:"supprime",supprime_le:today()}:t));
+    setHisto(p=>[...p,{id:`EVT-${Date.now()}`,date:today(),id_tenue:selId,action:"Suppression",enregistre_par:{grade:"—",nom:"—"}}]);
+    setMaster(null);setView("home");showToast("Tenue supprimée","error");
+  }});};
+  const saveArchive=({motif,grade,nom})=>{
+    setTenues(p=>p.map(t=>t.id===selId?{...t,statut:"archive",motif_archive:motif,date_derniere_action:today()}:t));
+    setHisto(p=>[...p,{id:`EVT-${Date.now()}`,date:today(),id_tenue:selId,action:"Archivage",motif,enregistre_par:{grade,nom}}]);
+    const id=selId;
+    setOverlay(null);setView("home");showToast("Tenue archivée");
+    apiCall("archiveTenue",{id,motif,grade_op:grade,nom_op:nom});
+  };
+  const editWashTrigger=()=>{setMaster({action:"corriger le compteur de lavages",cb:()=>{setMaster(null);setWashEdit(true);}});};
+  const saveWash=n=>{
+    const ancien=lavN(sel);
+    const diff=n-ancien;
+    setTenues(p=>p.map(t=>{
+      if(t.id!==selId) return t;
+      const newApp=Math.max(0,t.lavages_depuis_app+diff);
+      return{...t,lavages_depuis_app:newApp,date_derniere_action:today()};
+    }));
+    setHisto(p=>[...p,{id:`EVT-${Date.now()}`,date:today(),id_tenue:selId,action:"Correction lavages",ancien,nouveau:n,enregistre_par:{grade:"—",nom:"—"}}]);
+    setWashEdit(false);showToast(`Lavages corrigés : ${n}`);
+    apiCall("correctWash",{id:selId,nouveau:n});
+  };
+
+  if(loading)return(
+    <div style={{minHeight:"100vh",background:T.bg,display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:14}}>
+      <div style={{width:60,height:60,borderRadius:16,background:"#0F1E38",display:"flex",alignItems:"center",justifyContent:"center"}}>
+        <img src={IMG_LOGO} alt="" style={{height:46,objectFit:"contain"}}/>
+      </div>
+      <div style={{fontSize:15,fontWeight:700,color:"#0D1226"}}>EPI TRACK</div>
+      <div style={{fontSize:11,color:"#8891AA"}}>Chargement depuis Google Sheets…</div>
+    </div>
+  );
+  return <div style={{minHeight:"100vh",background:T.bg,display:"flex",flexDirection:"column"}}>
+    <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@600;700&display=swap');
+      *{box-sizing:border-box;margin:0;padding:0;font-family:'IBM Plex Sans',-apple-system,sans-serif;}
+      @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+      @keyframes fadeUp{from{transform:translateY(6px);opacity:0}to{transform:translateY(0);opacity:1}}
+      @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+      @keyframes popIn{from{transform:scale(0.96);opacity:0}to{transform:scale(1);opacity:1}}
+      input:focus{border-color:rgba(15,30,56,0.30)!important;box-shadow:0 0 0 3px rgba(15,30,56,0.07)!important;outline:none}
+      input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+      button:active{opacity:.80;transform:scale(.97)}
+      button:hover{opacity:.88}
+      ::-webkit-scrollbar{width:3px;height:3px}
+      ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.08);border-radius:99px}
+      @media(min-width:900px){.desktop-cols{display:grid!important;grid-template-columns:320px 1fr;gap:0;overflow:hidden;flex:1}}
+    `}</style>
+
+    <header style={{background:T.navy,position:"sticky",top:0,zIndex:100,flexShrink:0}}>
+      <div style={{maxWidth:1360,margin:"0 auto",padding:"0 16px",display:"flex",alignItems:"center",gap:10,height:50}}>
+        <button onClick={()=>setView("home")} style={{background:"none",border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:10,padding:0}}>
+          <img src={IMG_LOGO} alt="SDIS 38" style={{height:36,width:"auto",objectFit:"contain",filter:"drop-shadow(0 1px 4px rgba(220,60,0,0.28))"}}/>
+          <div style={{borderLeft:"1px solid rgba(255,255,255,0.10)",paddingLeft:10,textAlign:"left"}}>
+            <div style={{fontSize:14,fontWeight:700,color:"#fff",lineHeight:1,fontFamily:"'IBM Plex Mono',monospace"}}>EPI TRACK</div>
+            <div style={{fontSize:7.5,color:"rgba(255,255,255,0.22)",fontWeight:500,letterSpacing:".14em",marginTop:2,textTransform:"uppercase"}}>Caserne de Vienne · SDIS 38</div>
+          </div>
+        </button>
+        <div style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:5}}>
+          <button onClick={()=>{setInitStatut("en_service");setView("all");}} style={{display:"flex",alignItems:"center",gap:4,padding:"4px 10px",background:"rgba(22,163,74,0.15)",border:"1px solid rgba(22,163,74,0.25)",borderRadius:99,cursor:"pointer",color:"#4ADE80",fontSize:11,fontFamily:"inherit",fontWeight:700}}>
+            <span style={{width:5,height:5,borderRadius:99,background:"#4ADE80",flexShrink:0}}/>
+            <span>{tenues.filter(t=>t.statut==="en_service").length} service</span>
+          </button>
+          <button onClick={()=>{setInitStatut("en_stock");setView("all");}} style={{display:"flex",alignItems:"center",gap:4,padding:"4px 10px",background:"rgba(59,130,246,0.15)",border:"1px solid rgba(59,130,246,0.25)",borderRadius:99,cursor:"pointer",color:"#93C5FD",fontSize:11,fontFamily:"inherit",fontWeight:700}}>
+            <span style={{width:5,height:5,borderRadius:99,background:"#93C5FD",flexShrink:0}}/>
+            <span>{tenues.filter(t=>t.statut==="en_stock").length} stock</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <ScanBar tenues={tenues} onDetail={openDetail} onCreatePrefill={pre=>{setScanBuf(pre);setOverlay("create");}} blocked={!!(overlay||master||washEdit||affectId)}/>
+
+    {/* Desktop: left panel home, right panel detail/all */}
+    <div className="desktop-cols" style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+
+      {/* Left sidebar (desktop only) */}
+      <div style={{borderRight:`1px solid ${T.border}`,overflowY:"auto",background:T.surface,display:"flex",flexDirection:"column"}}>
+        <HomeView tenues={tenues} onDetail={openDetail} setOverlay={setOverlay} setView={setView} setPresel={setPresel} setInitStatut={setInitStatut} setAffectId={setAffectId}/>
+      </div>
+
+      {/* Main content */}
+      <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+        {(view==="home")&&<div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <div style={{textAlign:"center",padding:32}}>
+            <div style={{width:56,height:56,background:T.navyLight,borderRadius:16,margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center"}}><Search size={22} color={T.navy}/></div>
+            <div style={{fontSize:13,fontWeight:700,color:T.t1,marginBottom:4}}>Scanner ou sélectionner une tenue</div>
+            <div style={{fontSize:11,color:T.t3}}>Utilisez la barre de scan ou cliquez sur une tenue</div>
+          </div>
+        </div>}
+        {view==="all"&&<AllView key={initStatut} tenues={tenues} onBack={()=>setView("home")} onDetail={openDetail} setOverlay={setOverlay} setPresel={setPresel} initStatut={initStatut} setAffectId={setAffectId}/>}
+        {view==="detail"&&sel&&<DetailView t={sel} histo={histo} tenues={tenues} onBack={()=>setView("home")} onChange={openChange} onArchive={archiveTrigger} onDelete={deleteTrigger} onEditWash={editWashTrigger}
+          onAffect={id=>setAffectId(id)}
+          onStock={id=>{const idv=id;setTenues(p=>p.map(t=>t.id===idv?{...t,statut:"en_stock",agent_actuel:"",date_derniere_action:today()}:t));setHisto(p=>[...p,{id:`EVT-${Date.now()}`,date:today(),id_tenue:idv,action:"Retour stock"}]);setView("home");showToast("Tenue remise en stock");apiCall("retourStock",{id:idv});}}
+        />}
+      </div>
+    </div>
+
+    {overlay==="create"&&<CreateSheet onClose={()=>{setOverlay(null);setScanBuf("");}} onSave={saveTenue} tenues={tenues} lastOp={lastOp} setLastOp={setLastOp} prefill={scanBuf||null}/>}
+    {overlay==="change"&&<ChangeSheet onClose={()=>setOverlay(null)} onSave={saveChange} tenues={tenues} presel={presel} lastOp={lastOp} setLastOp={setLastOp}/>}
+    {overlay==="archive"&&archPend&&<ArchiveSheet tenue={archPend} onClose={()=>setOverlay(null)} onSave={saveArchive}/>}
+    {overlay==="export"&&<ExportSheet tenues={tenues} histo={histo} onClose={()=>setOverlay(null)}/>}
+    {affectId&&<AffectSheet tenue={tenues.find(t=>t.id===affectId)} onClose={()=>setAffectId(null)} onSave={saveAffect} tenues={tenues} lastOp={lastOp} setLastOp={setLastOp}/>}
+    {master&&<MasterModal action={master.action} onSuccess={master.cb} onClose={()=>setMaster(null)}/>}
+    {washEdit&&sel&&<WashEditModal tenue={sel} onSave={saveWash} onClose={()=>setWashEdit(false)}/>}
+    {toast&&<Toast msg={toast.msg} type={toast.type}/>}
+  </div>;
+}
+  
+    const _root = ReactDOM.createRoot(document.getElementById('root'));
+    _root.render(<App/>);
+  </script>
+</body>
+</html>
