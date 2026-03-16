@@ -328,7 +328,8 @@ const DEMO=false; // ✅ Mode production — connecté à Google Sheets
 const apiCall=(action,data={})=>{
   if(DEMO)return Promise.resolve(null);
   const p=new URLSearchParams({action,data:JSON.stringify(data)});
-  return fetch(API_URL+'?'+p.toString()).then(r=>r.json()).catch(e=>{console.warn('API:',action,e);return null;});
+  return fetch(API_URL+'?'+p.toString()).then(r=>r.json()).catch(e => { console.error('API ERROR:', action, e); return null; })
+.then(r => { if(r?.error) console.error('API:', action, r.error); return r; });
 };
 
 const nextId= (list,pfx)=>{const ns=list.filter(t=>t.id.startsWith(pfx)).map(t=>parseInt(t.id.split("-")[1])||0);return`${pfx}-${String((ns.length?Math.max(...ns):0)+1).padStart(3,"0")}`;};
@@ -1883,7 +1884,12 @@ function App(){
     }
     setHisto(p=>[...p,...allEvts]);
     setOverlay(null);setScanBuf("");showToast(`Tenue ${t.id} créée`);
-    apiCall("createTenue",{tenue:t,grade_op:op.grade,nom_op:op.nom,extra_events:extraEvents,donnee_change:donneeChange});
+    apiCall("saveTenue", {
+  ...t,
+  grade_op: op.grade,
+  nom_op: op.nom,
+  extraEvents: extraEvents,
+});
   };
   const saveChange=({id_tenue_rendue,id_tenue_donnee,agent_nom,devenir,beneficiaire_direct,date,enregistre_par})=>{
     // Bloquer si le dernier événement significatif de cette tenue est déjà un lavage
